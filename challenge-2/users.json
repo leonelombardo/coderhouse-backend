@@ -1,0 +1,29 @@
+[
+	{
+		"title": "Porsche",
+		"description": "911",
+		"price": 199999,
+		"thumbnail": "No",
+		"code": "PORSCHE_911",
+		"stock": 50,
+		"id": 0
+	},
+	{
+		"title": "Ferrari",
+		"description": "458",
+		"price": 249999,
+		"thumbnail": "No",
+		"code": "FERRARI_458",
+		"stock": 50,
+		"id": 1
+	},
+	{
+		"title": "Lamborghini",
+		"description": "Aventador",
+		"price": 249999,
+		"thumbnail": "No",
+		"code": "LAMBORGHINI_AVENTADOR",
+		"stock": 50,
+		"id": 2
+	}
+]
