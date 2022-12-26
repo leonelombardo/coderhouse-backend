@@ -8,22 +8,21 @@ class ProductManager {
     addProduct = async (object) => {
         const { title, description, price, thumbnail, code, stock } = object
         const hasUndefinedKeys = [title, description, price, thumbnail, code, stock].some(key => key == null || key == undefined)
-
+        
         if(hasUndefinedKeys){
             console.error("You should complete all fields.")
             return
+        }
+
+        const products = await this.getProducts()
+        const isCodeRepeated = products.find(product => product.code == object.code)
+
+        if(isCodeRepeated){
+            console.error("This code is already used.")
         }else{
-            const products = await this.getProducts()
-            const isCodeRepeated = products.find(product => product.code == object.code)
+            products.push({...object, id: products.length})
 
-            if(isCodeRepeated){
-                console.error("This code is already used.")
-            }else{
-                const products = await this.getProducts()
-                products.push({...object, id: products.length})
-
-                await fs.promises.writeFile(this.path, JSON.stringify(products, null, "\t"))
-            }
+            await fs.promises.writeFile(this.path, JSON.stringify(products, null, "\t"))
         }
     }
 
@@ -51,10 +50,15 @@ class ProductManager {
 
     updateProduct = async (id, object) => {
         const products = await this.getProducts()
-        const product = await this.getProductById(id)
+        const product = products.find(product => product.id === id)
+
+        if(!product){
+            console.error("Product not found.")
+            return
+        }
 
         if(object.id){
-            console.log("Can't update ID.")
+            console.error("Can't update ID.")
             return
         }
 
@@ -63,7 +67,7 @@ class ProductManager {
             ...object
         }
 
-        const updatedProducts = products.map(x => x.id === updatedProduct.id ? updatedProduct :  x)
+        const updatedProducts = products.map(product => product.id === updatedProduct.id ? updatedProduct :  product)
 
         await fs.promises.writeFile(this.path, JSON.stringify(updatedProducts, null , "\t"))
     }
