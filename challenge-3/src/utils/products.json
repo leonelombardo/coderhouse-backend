@@ -1,0 +1,38 @@
+[
+    {
+        "id": 0,
+        "name": "Ferrari 458",
+        "price": 249999,
+        "model": 2020
+    },
+    {
+        "id": 1,
+        "name": "Lamborghini Aventador",
+        "price": 249999,
+        "model": 2021
+    },
+    {
+        "id": 2,
+        "name": "Porsche 911 GT3 RS",
+        "price": 249999,
+        "model": 2021
+    },
+    {
+        "id": 3,
+        "name": "Audi R8",
+        "price": 199999,
+        "model": 2019
+    },
+    {
+        "id": 4,
+        "name": "McLaren 765LT",
+        "price": 399999,
+        "model": 2023
+    },
+    {
+        "id": 5,
+        "name": "Bugatti Divo",
+        "price": 499999,
+        "model": 2023
+    }
+]
