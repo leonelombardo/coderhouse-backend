@@ -7,7 +7,7 @@ const products = await productManager.getProducts()
 const server = express()
 
 server.listen(8080, () => {
-    console.log("It's running.")
+    console.log("Express server running on localhost:8080.")
 })
 
 server.get("/", (req, res) => {
