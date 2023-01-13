@@ -27,5 +27,7 @@ server.get("/products/:productId", (req, res) => {
 
     const product = products.find(product => product.id === +productId && product)
 
-    res.send(product)
+    if(product) return res.send(product)
+
+    return res.send({ error: "Product not found." })
 })

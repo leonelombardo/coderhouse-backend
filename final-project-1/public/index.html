@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css"/>
+    <script defer src="./index.js"></script>
+    <title>data | home</title>
+</head>
+<body>
+    <div class="wrapper">
+        <header id="header">
+            <nav id="nav">
+                <h1 id="nav-logo">Logo</h1>
+                <ul id="nav-links">
+                    <li class="nav-link">
+                        <a href="./products">Products</a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="./panel">Panel</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <main id="main">
+            <form action="/api/products" method="POST" class="form">
+                <div class="inputs-container">
+                    <div class="input-group-container">
+                        <div class="input-container">
+                            <label for="name" class="input-label">Name *</label>
+                            <input type="text" name="title" class="input-primary" id="name" required/>
+                        </div>
+                        <div class="input-container">
+                            <label for="category" class="input-label">Category *</label>
+                            <input type="text" name="category" class="input-primary" id="category" required/>
+                        </div>
+                    </div>
+                    <div class="input-container">
+                        <label for="description" class="input-label">Description *</label>
+                        <textarea name="description" class="input-primary" id="description" required></textarea>
+                    </div>
+                    <div class="input-group-container">
+                        <div class="input-container">
+                            <label for="price" class="input-label">Price *</label>
+                            <input type="number" name="price" class="input-primary" id="price" required/>
+                        </div>
+                        <div class="input-container">
+                            <label for="stock" class="input-label">Stock *</label>
+                            <input type="number" name="stock" class="input-primary" id="stock" required/>
+                        </div>
+                        <div class="input-container">
+                            <label for="code" class="input-label">Product code *</label>
+                            <input type="number" name="code" class="input-primary" id="code" required/>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="button-primary">Add</button>
+            </form>
+        </main>
+    </div>
+</body>
+</html>
