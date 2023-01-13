@@ -48,8 +48,6 @@ productsRouter.get("/:id", async (req, res) => {
 productsRouter.post("/", async (req, res) => {
     const { title, description, category, stock, price, code, status=true, thumbnails } = req.body
 
-    console.log("DADA")
-
     if(!title || !description || !code || !price || !stock || !category) return res.status(400).send({ status: 400, success: false, error: true, response: "Please complete all fields." })
 
     const product = { id: v4(), title, description, category, thumbnails: thumbnails && thumbnails, stock, price, code, status }
