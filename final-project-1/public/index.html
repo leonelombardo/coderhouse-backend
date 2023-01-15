@@ -12,53 +12,53 @@
     <title>data | home</title>
 </head>
 <body>
-    <div class="wrapper">
-        <header id="header">
+    <div class="wrapper dark">
+        <header id="header" class="dark">
             <nav id="nav">
-                <h1 id="nav-logo">data.</h1>
+                <h1 id="nav-logo" class="dark">data.</h1>
                 <ul id="nav-links">
                     <li class="nav-link">
-                        <a href="./">Home</a>
+                        <a href="./" class="dark">Home</a>
                     </li>
                     <li class="nav-link">
-                        <a href="./products">Products</a>
+                        <a href="./products" class="dark">Products</a>
                     </li>
                     <li class="nav-link">
-                        <a href="./panel">Panel</a>
+                        <a href="./panel" class="dark">Panel</a>
                     </li>
                 </ul>
             </nav>
         </header>
-        <main id="main">
-            <form action="/api/products" method="POST" class="form">
+        <main id="main" class="dark">
+            <form action="/api/products" method="POST" class="form dark">
                 <h4 class="form-header">Product</h4>
                 <div class="inputs-container">
                     <div class="input-group-container">
                         <div class="input-container">
                             <label for="name" class="input-label">Name *</label>
-                            <input type="text" name="title" class="input-primary" id="name" required/>
+                            <input type="text" name="title" class="input-primary dark" id="name" required/>
                         </div>
                         <div class="input-container">
                             <label for="category" class="input-label">Category *</label>
-                            <input type="text" name="category" class="input-primary" id="category" required/>
+                            <input type="text" name="category" class="input-primary dark" id="category" required/>
                         </div>
                     </div>
                     <div class="input-container">
                         <label for="description" class="input-label">Description *</label>
-                        <textarea name="description" class="input-primary" id="description" required></textarea>
+                        <textarea name="description" class="input-primary dark" id="description" required></textarea>
                     </div>
                     <div class="input-group-container">
                         <div class="input-container">
                             <label for="price" class="input-label">Price *</label>
-                            <input type="number" name="price" class="input-primary" id="price" min="0" required/>
+                            <input type="number" name="price" class="input-primary dark" id="price" min="0" required/>
                         </div>
                         <div class="input-container">
                             <label for="stock" class="input-label">Stock *</label>
-                            <input type="number" name="stock" class="input-primary" id="stock" min="0" required/>
+                            <input type="number" name="stock" class="input-primary dark" id="stock" min="0" required/>
                         </div>
                         <div class="input-container">
                             <label for="code" class="input-label">Product code *</label>
-                            <input type="number" name="code" class="input-primary" id="code" min="0" required/>
+                            <input type="number" name="code" class="input-primary dark" id="code" min="0" required/>
                         </div>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
             </form>
         </main>
         <footer id="footer">
-            <h4 class="footer-header">Developed by Leonel Lombardo</h4>
+            <h4 class="footer-header dark">Developed by Leonel Lombardo</h4>
         </footer>
     </div>
 </body>
