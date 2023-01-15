@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../../style.css"/>
+    <script defer src="./index.js"></script>
+    <title>data | delete product</title>
+</head>
+<body>
+    <div class="wrapper dark">
+        <header id="header" class="dark">
+            <nav id="nav">
+                <h1 id="nav-logo" class="dark">data.</h1>
+                <ul id="nav-links">
+                    <li class="nav-link">
+                        <a href="../../../" class="dark">Home</a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="../../../products" class="dark">Products</a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="../../" class="dark">Admin</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <main id="main" class="dark">
+            <form class="form dark" id="form-delete">
+                <h4 class="form-header">DELETE Product</h4>
+                <div class="inputs-container">
+                    <div class="input-group-container">
+                        <div class="input-container">
+                            <label for="name" class="input-label">Product ID *</label>
+                            <input type="text" name="title" class="input-primary dark" id="product-id" required/>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="button-primary">Delete</button>
+            </form>
+        </main>
+        <footer id="footer">
+            <h4 class="footer-header dark">Developed by Leonel Lombardo</h4>
+        </footer>
+    </div>
+</body>
+</html>
