@@ -24,46 +24,13 @@
                         <a href="./products" class="dark">Products</a>
                     </li>
                     <li class="nav-link">
-                        <a href="./panel" class="dark">Panel</a>
+                        <a href="./admin" class="dark">Admin</a>
                     </li>
                 </ul>
             </nav>
         </header>
         <main id="main" class="dark">
-            <form action="/api/products" method="POST" class="form dark">
-                <h4 class="form-header">Product</h4>
-                <div class="inputs-container">
-                    <div class="input-group-container">
-                        <div class="input-container">
-                            <label for="name" class="input-label">Name *</label>
-                            <input type="text" name="title" class="input-primary dark" id="name" required/>
-                        </div>
-                        <div class="input-container">
-                            <label for="category" class="input-label">Category *</label>
-                            <input type="text" name="category" class="input-primary dark" id="category" required/>
-                        </div>
-                    </div>
-                    <div class="input-container">
-                        <label for="description" class="input-label">Description *</label>
-                        <textarea name="description" class="input-primary dark" id="description" required></textarea>
-                    </div>
-                    <div class="input-group-container">
-                        <div class="input-container">
-                            <label for="price" class="input-label">Price *</label>
-                            <input type="number" name="price" class="input-primary dark" id="price" min="0" required/>
-                        </div>
-                        <div class="input-container">
-                            <label for="stock" class="input-label">Stock *</label>
-                            <input type="number" name="stock" class="input-primary dark" id="stock" min="0" required/>
-                        </div>
-                        <div class="input-container">
-                            <label for="code" class="input-label">Product code *</label>
-                            <input type="number" name="code" class="input-primary dark" id="code" min="0" required/>
-                        </div>
-                    </div>
-                </div>
-                <button type="submit" class="button-primary">Create</button>
-            </form>
+            
         </main>
         <footer id="footer">
             <h4 class="footer-header dark">Developed by Leonel Lombardo</h4>
