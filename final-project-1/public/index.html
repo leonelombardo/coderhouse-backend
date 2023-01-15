@@ -15,8 +15,11 @@
     <div class="wrapper">
         <header id="header">
             <nav id="nav">
-                <h1 id="nav-logo">Logo</h1>
+                <h1 id="nav-logo">data.</h1>
                 <ul id="nav-links">
+                    <li class="nav-link">
+                        <a href="./">Home</a>
+                    </li>
                     <li class="nav-link">
                         <a href="./products">Products</a>
                     </li>
@@ -28,6 +31,7 @@
         </header>
         <main id="main">
             <form action="/api/products" method="POST" class="form">
+                <h4 class="form-header">Product</h4>
                 <div class="inputs-container">
                     <div class="input-group-container">
                         <div class="input-container">
@@ -58,9 +62,12 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="button-primary">Add</button>
+                <button type="submit" class="button-primary">Create</button>
             </form>
         </main>
+        <footer id="footer">
+            <h4 class="footer-header">Developed by Leonel Lombardo</h4>
+        </footer>
     </div>
 </body>
 </html>
