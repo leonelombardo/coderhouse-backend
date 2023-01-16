@@ -38,16 +38,12 @@
                         <article class="endpoint-card dark">
                             <h4 class="endpoint-name">GET Products</h4>
                             <p class="endpoint-description"></p>
-                            <a href="/">
-                                <button class="button-primary">Request</button>
-                            </a>
+                            <button class="button-primary" id="get-products">Request</button>
                         </article>
                         <article class="endpoint-card dark">
                             <h4 class="endpoint-name">GET Carts</h4>
                             <p class="endpoint-description"></p>
-                            <a href="/">
-                                <button class="button-primary">Request</button>
-                            </a>
+                            <button class="button-primary" id="get-carts">Request</button>
                         </article>
                     </section>
                 </section>
@@ -58,13 +54,18 @@
                             <h4 class="endpoint-name">POST Product</h4>
                             <p class="endpoint-description"></p>
                             <a href="./create/product">
-                                <button class="button-primary">Request</button>
+                                <button class="button-primary">Try</button>
                             </a>
                         </article>
                         <article class="endpoint-card dark">
                             <h4 class="endpoint-name">POST Cart</h4>
                             <p class="endpoint-description"></p>
-                            <a href="./create/cart">
+                            <button class="button-primary" id="post-cart">Request</button>
+                        </article>
+                        <article class="endpoint-card dark">
+                            <h4 class="endpoint-name">POST Product to cart</h4>
+                            <p class="endpoint-description"></p>
+                            <a href="./add-product-to-cart/">
                                 <button class="button-primary">Request</button>
                             </a>
                         </article>
@@ -77,14 +78,14 @@
                             <h4 class="endpoint-name">PUT Product</h4>
                             <p class="endpoint-description"></p>
                             <a href="/">
-                                <button class="button-primary">Request</button>
+                                <button class="button-primary">Try</button>
                             </a>
                         </article>
                         <article class="endpoint-card dark">
                             <h4 class="endpoint-name">PUT Cart</h4>
                             <p class="endpoint-description"></p>
                             <a href="/">
-                                <button class="button-primary">Request</button>
+                                <button class="button-primary">Try</button>
                             </a>
                         </article>
                     </section>
@@ -96,14 +97,14 @@
                             <h4 class="endpoint-name">PATCH Product</h4>
                             <p class="endpoint-description"></p>
                             <a href="/">
-                                <button class="button-primary">Request</button>
+                                <button class="button-primary">Try</button>
                             </a>
                         </article>
                         <article class="endpoint-card dark">
                             <h4 class="endpoint-name">PATCH Cart</h4>
                             <p class="endpoint-description"></p>
                             <a href="/">
-                                <button class="button-primary">Request</button>
+                                <button class="button-primary">Try</button>
                             </a>
                         </article>
                     </section>
@@ -115,19 +116,26 @@
                             <h4 class="endpoint-name">DELETE Product</h4>
                             <p class="endpoint-description"></p>
                             <a href="./delete/product">
-                                <button class="button-primary">Request</button>
+                                <button class="button-primary">Try</button>
                             </a>
                         </article>
                         <article class="endpoint-card dark">
                             <h4 class="endpoint-name">DELETE Cart</h4>
                             <p class="endpoint-description"></p>
                             <a href="./delete/cart">
-                                <button class="button-primary">Request</button>
+                                <button class="button-primary">Try</button>
                             </a>
                         </article>
                     </section>
                 </section>
             </div>
+
+            <section class="modal-container dark" id="modal-container">
+                <div class="modal dark">
+                    <button class="button-close dark" id="close-modal">X</button>
+                    <div id="results"></div>
+                </div>
+            </section>
         </main>
         <footer id="footer">
             <h4 class="footer-header dark">Developed by Leonel Lombardo</h4>
