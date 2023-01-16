@@ -7,8 +7,14 @@ formDelete.addEventListener("submit", async (event) => {
     const { value } = cartId
     
     try{
-        await fetch(`/api/carts/${value}`, { method: "DELETE" })
+        const response = await fetch(`/api/carts/${value}`, { method: "DELETE" })
+        const data = await response.json()
+        const { error } = data
+
+        if(error) return alert(data.response)
+
+        alert(`Cart ${value} deleted.`)
     }catch(error){
-        console.error(error)
+        alert(error)
     }
 })

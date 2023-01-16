@@ -30,8 +30,6 @@ formCreate.addEventListener("submit", async (event) => {
         code: code
     }
 
-    console.log(product)
-
     try{
         await fetch("/api/products", {
             method: "POST",
@@ -40,7 +38,9 @@ formCreate.addEventListener("submit", async (event) => {
             },
             body: JSON.stringify(product)
         })
+
+        alert(`Product ${product.title} created.`)
     }catch(error){
-        console.error(error)
+        alert(error)
     }
 })
