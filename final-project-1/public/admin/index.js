@@ -24,15 +24,19 @@ getProductsButton.addEventListener("click", async () => {
             ? products.map(product => {
                 results.innerHTML += 
                     `<div class="product-card dark">
-                        <span class="product-id dark">${product.id}</span>
-                        <div class="product-header dark">
-                            <h4 class="product-name dark">${product.title}</h4>
-                            <p class="product-category dark">${product.category}</p>
+                        <div class="product-head">
+                            <span class="product-id dark">${product.id ?? "Unknown"}</span>
+                            <div class="product-header dark">
+                                <h4 class="product-name dark">${product.title ?? "No name"}</h4>
+                                <p class="product-category dark">${product.category ?? "No category"}</p>
+                            </div>
+                            <p class="product-description dark">${product.description ?? "No description"}</p>
                         </div>
-                        <p class="product-description dark">${product.description}</p>
-                        <span class="product-price dark">$${product.price}</span>
-                        <span class="product-stock dark">Stock: ${product.stock}</span>
-                        <span class="product-code dark">Product code: ${product.code}</span>
+                        <div class="product-data">
+                            <span class="product-price dark">$${product.price ?? "No price"}</span>
+                            <span class="product-stock dark">Stock: ${product.stock ?? "No stock"}</span>
+                            <span class="product-code dark">Product code: ${product.code ?? "No product code"}</span>
+                        </div>
                     </div>`
             })
             : results.innerHTML += `<span class="product-id dark" style="text-align: center">There are no products</span>`
@@ -55,14 +59,14 @@ getCartsButton.addEventListener("click", async () => {
         carts.map(cart => {
             results.innerHTML += 
                 `<div class="product-card dark">
-                    <span class="product-category dark">${cart.id}</span>
+                    <span class="product-id dark">${cart.id ?? "Unknown"}</span>
                     <h4 class="product-name dark">Products<h4/>
                     <div class="dark" style="display: flex; flex-direction: column;">
                         ${
                             
                             cart.products.length
                                 ? cart.products.map(product => {
-                                    return `<span class="product-id dark">${product.id}</span>`
+                                    return `<span class="product-category dark">${product.id ?? "No product"}</span>`
                                 }).join("")
                                 : `<span class="product-id dark">This cart has no products</span>`
                         }
