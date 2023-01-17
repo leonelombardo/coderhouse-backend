@@ -9,6 +9,7 @@ const inputCode = document.querySelector("#code")
 
 formUpdateProduct.addEventListener("submit", async (event) => {
     event.preventDefault()
+
     
     const id = inputID.value
     const title = inputTitle.value
@@ -41,9 +42,9 @@ formUpdateProduct.addEventListener("submit", async (event) => {
         })
 
         const data = await response.json()
-        const error = { data }
+        const { error }  = data
 
-        if(error) return alert(error)
+        if(error) return alert(data.response)
 
         alert(`Product ${id} updated.`)
     }catch(error){

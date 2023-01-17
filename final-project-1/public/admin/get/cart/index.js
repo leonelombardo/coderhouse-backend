@@ -13,7 +13,6 @@ formGet.addEventListener("submit", async (event) => {
 
     try{
         const response = await fetch(`/api/carts/${id}`)
-        console.log(id)
         const data = await response.json()
         const { error, products } = data
 
