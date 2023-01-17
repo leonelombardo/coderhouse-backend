@@ -1,42 +1,12 @@
 [
 	{
-		"id": "43755189-dd16-47c1-87f6-a2e91a46985c",
-		"title": "Xbox 360",
-		"description": "Xbox",
-		"category": "Gaming",
-		"stock": 158,
-		"price": 299,
-		"code": 12,
-		"status": true
-	},
-	{
-		"id": "047ac732-7b03-4dc6-a71c-b61f4b3e935a",
-		"title": "PlayStation 5",
-		"description": "Sony",
-		"category": "Gaming",
-		"stock": 74,
-		"price": 899,
-		"code": 186,
-		"status": true
-	},
-	{
-		"id": "debc8812-4c79-4e23-80ab-495a661dd519",
-		"title": "Nintendo Switch",
-		"description": "Nintendo",
-		"category": "Gaming",
-		"stock": 174,
-		"price": 399,
-		"code": 24,
-		"status": true
-	},
-	{
-		"id": "2271210d-10d2-47e9-8805-9139dc0291d5",
-		"title": "Porsche 911 Carrera",
-		"description": "This sportscar is one of the most iconic sportscar in the history.\r\n\r\nIt got worldwide popularity when Porsche released its Porsche 911 Carrera GT in 2004.",
+		"id": "5b8a186a-f0b5-47cc-8dd3-0e534053ff2f",
+		"title": "Ferrari 458 Italia",
+		"description": "The Ferrari 458 Italia is a two-seater, longitudinally mounted rear-engine, rear-wheel drive, 2-door supercar produced by the Italian manufacturer Ferrari from 2009 to 2015 as a replacement for the Ferrari F430. In turn, it was succeeded by the F488, which was unveiled at the 2015 Geneva Motor Show.",
 		"category": "Sportscar",
-		"stock": "4",
-		"price": "497689",
-		"code": "91829381",
+		"stock": "38",
+		"price": "489999",
+		"code": "9avFk87xcPq",
 		"status": true
 	}
 ]
