@@ -39,7 +39,7 @@ getProductsButton.addEventListener("click", async () => {
                         </div>
                     </div>`
             })
-            : results.innerHTML += `<span class="product-id dark" style="text-align: center">There are no products</span>`
+            : results.innerHTML += `<span class="product-description dark" style="text-align: center">There are no products</span>`
 
     }catch(error){
         alert(`Error: ${error}`, "error")
@@ -68,7 +68,7 @@ getCartsButton.addEventListener("click", async () => {
                                 ? cart.products.map(product => {
                                     return `<span class="product-category dark">${product.id ?? "No product"}</span>`
                                 }).join("")
-                                : `<span class="product-id dark">This cart has no products</span>`
+                                : `<span class="product-description dark">This cart has no products</span>`
                         }
                     </div>
                 </div>`
