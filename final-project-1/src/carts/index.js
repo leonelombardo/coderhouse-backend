@@ -9,7 +9,7 @@ cartsRouter.get("/", async (req, res) => {
     try{
         const response = await fs.promises.readFile(CARTS_PATH, "utf-8")
         
-        if(!response.length) return res.status(404).send( { status: 404, success: false, error: true, message: "There are no carts." })
+        if(!response.length) return res.status(404).send( { status: 404, success: false, error: true, response: "There are no carts." })
         
         const carts = JSON.parse(response)
 
@@ -25,12 +25,12 @@ cartsRouter.get("/:id", async (req, res) => {
     try{
         const response = await fs.promises.readFile(CARTS_PATH, "utf-8")
 
-        if(!response.length) return res.status(404).send( { status: 404, success: false, error: true, message: "There are no carts." })
+        if(!response.length) return res.status(404).send( { status: 404, success: false, error: true, response: "There are no carts." })
 
         const carts = JSON.parse(response)
         const cart = carts.find(x => x.id === id && x)
     
-        if(!cart) return res.status(404).send( { status: 404, success: false, error: true, message: "Cart not found." })
+        if(!cart) return res.status(404).send( { status: 404, success: false, error: true, response: "Cart not found." })
     
         res.status(200).send({ products: cart.products })
     }catch(error){
@@ -70,12 +70,12 @@ cartsRouter.post("/:cartId/product/:productId", async (req, res) => {
     try{
         const response = await fs.promises.readFile(CARTS_PATH, "utf-8")
         
-        if(!response.length) return res.status(404).send( { status: 404, success: false, error: true, message: "There are no carts." })
+        if(!response.length) return res.status(404).send( { status: 404, success: false, error: true, response: "There are no carts." })
 
         const carts = JSON.parse(response)
         const cart = carts.find(x => x.id === cartId)
 
-        if(!cart) return res.status(404).send( { status: 404, success: false, error: true, message: "Cart not found." })
+        if(!cart) return res.status(404).send( { status: 404, success: false, error: true, response: "Cart not found." })
 
         const { products } = cart
 
