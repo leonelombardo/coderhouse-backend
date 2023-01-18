@@ -211,25 +211,36 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 }
 
 .button-close{
+    position: sticky;
+    top: -25px;
+    right: 0;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
     align-self: flex-end;
-    background-color: transparent;
+    background-color: var(--secondary-500);
     color: var(--primary-500);
     font-weight: var(--font-semibold);
     font-size: var(--font-xs);
-    padding: 0;
-    width: fit-content;
+    padding: 12px 0;
     outline: none;
     border: none;
     cursor: pointer;
-    transition: opacity .3s;
+    transition: color .3s;
+    z-index: 999999;
 }
 
 .button-close.dark{
     color: var(--secondary-500);
+    background-color: var(--primary-500);
 }
 
 .button-close:hover{
-    opacity: .5
+    color: var(--primary-300);
+}
+
+.button-close.dark:hover{
+    color: var(--secondary-300);
 }
 
 .input-primary{
