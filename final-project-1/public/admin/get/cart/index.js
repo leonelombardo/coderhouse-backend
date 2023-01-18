@@ -18,16 +18,17 @@ formGet.addEventListener("submit", async (event) => {
 
         if(error) return alert(data.response)
 
-        products.map(product => {
-            return results.innerHTML += 
-            `<div class="product-card dark">
-                <div class="product-head">
-                    <span class="product-name dark">${product.id ?? "Unknown"}</span>
-                    <span class="product-category dark">Quantity: ${product.quantity ?? "No stock"}</span>
-                </div>
-            </div>`
-        })
-        
+        products.length
+            ? products.map(product => {
+                return results.innerHTML += 
+                    `<div class="product-card dark">
+                        <div class="product-head">
+                            <span class="product-name dark">${product.id ?? "Unknown"}</span>
+                            <span class="product-category dark">Quantity: ${product.quantity ?? "No stock"}</span>
+                        </div>
+                    </div>`
+                })
+            : results.innerHTML += `<span class="product-description dark" style="text-align: center">This cart has no products</span>`
 
         modalContainer.style.display = "flex"
     }catch(error){

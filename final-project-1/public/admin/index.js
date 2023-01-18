@@ -56,23 +56,24 @@ getCartsButton.addEventListener("click", async () => {
 
         modalContainer.style.display = "flex"
 
-        carts.map(cart => {
-            results.innerHTML += 
-                `<div class="product-card dark">
-                    <span class="product-id dark">${cart.id ?? "Unknown"}</span>
-                    <h4 class="product-name dark">Products<h4/>
-                    <div class="dark" style="display: flex; flex-direction: column;">
-                        ${
-                            
-                            cart.products.length
-                                ? cart.products.map(product => {
-                                    return `<span class="product-category dark">${product.id ?? "No product"}</span>`
-                                }).join("")
-                                : `<span class="product-description dark">This cart has no products</span>`
-                        }
-                    </div>
-                </div>`
-        })
+        carts.length
+            ? carts.map(cart => {
+                return results.innerHTML += 
+                    `<div class="product-card dark">
+                        <span class="product-id dark">${cart.id ?? "Unknown"}</span>
+                        <h4 class="product-name dark">Products<h4/>
+                        <div class="dark" style="display: flex; flex-direction: column;">
+                            ${
+                                cart.products.length
+                                    ? cart.products.map(product => {
+                                        return `<span class="product-category dark">${product.id ?? "No product"}</span>`
+                                    }).join("")
+                                    : `<span class="product-description dark">This cart has no products</span>`
+                            }
+                        </div>
+                    </div>`
+                })
+            : results.innerHTML += `<span class="product-description dark" style="text-align: center">There are no carts</span>`
     }catch(error){
         alert(error)
     }
