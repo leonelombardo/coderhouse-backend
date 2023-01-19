@@ -57,10 +57,29 @@
                             <label for="stock" class="input-label">Stock *</label>
                             <input type="number" name="stock" class="input-primary dark" id="stock" min="0" required/>
                         </div>
+                    </div>
+                    <div class="input-group-container">
+                        <div class="input-container">
+                            <label class="input-label">Status *</label>
+                            <div style="display: flex; gap: 24px; align-items: center; height: 100%;">
+                                <label for="status-true">
+                                    <input type="radio" value="true" name="status" id="status-true" checked required/> 
+                                    True 
+                                </label>
+                                <label for="status-false">
+                                    <input type="radio" value="true" name="status" id="status-false" required/> 
+                                    False 
+                                </label>
+                            </div>
+                        </div>
                         <div class="input-container">
                             <label for="code" class="input-label">Product code *</label>
                             <input type="text" name="code" class="input-primary dark" id="code" min="0" required/>
                         </div>
+                    </div>
+                    <div class="input-container">
+                        <label for="thumbnails" class="input-label">Thumbnails *</label>
+                        <textarea placeholder="Separate with commas." name="thumbnails" class="input-primary dark" id="thumbnails" required></textarea>
                     </div>
                 </div>
                 <button type="submit" class="button-primary">Update</button>

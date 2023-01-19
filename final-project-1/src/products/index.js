@@ -49,8 +49,7 @@ productsRouter.post("/", async (req, res) => {
     const { title, description, category, stock, price, code, status=true, thumbnails } = req.body
 
     if(!title || !description || !code || !price || !stock || !category) return res.status(400).send({ status: 400, success: false, error: true, response: "Please complete all fields." })
-
-    const product = { id: v4(), title, description, category, thumbnails: thumbnails && thumbnails, stock, price, code, status }
+    if(status !== true && status !== false) return res.status(400).send({ status: 400, success: false, error: true, response: "Status must be boolean." })
 
     try{
         const response = await fs.promises.readFile(PRODUCTS_PATH, "utf-8")
@@ -62,6 +61,11 @@ productsRouter.post("/", async (req, res) => {
         }
         
         const products = JSON.parse(response)
+        const isCodeRepeated = products.find(x => x.code === code)
+        
+        if(isCodeRepeated) return res.status(400).send({ status: 400, success: false, error: true, response: "This product code already exists." })
+        
+        const product = { id: v4(), title, description, category, thumbnails: thumbnails && thumbnails, stock, price, code, status }
         products.push(product)
         
         await fs.promises.writeFile(PRODUCTS_PATH, JSON.stringify(products, null, "\t"))
@@ -73,10 +77,11 @@ productsRouter.post("/", async (req, res) => {
 })
 
 productsRouter.put("/:id", async (req, res) => {
-    const { title, description, category, stock, price, code, status=true } = req.body
+    const { title, description, category, stock, price, code, status=true, thumbnails } = req.body
     const { id } = req.params
 
-    if(!title || !description || !category || !stock || !price || !code || !status) return res.status(400).send({ status: 400, success: false, error: true, response: "Missing keys." })
+    if(!title || !description || !category || !stock || !price || !code) return res.status(400).send({ status: 400, success: false, error: true, response: "Missing keys." })
+    if(status !== true && status !== false) return res.status(400).send({ status: 400, success: false, error: true, response: "Status must be boolean." })
 
     try{
         const response = await fs.promises.readFile(PRODUCTS_PATH, "utf-8")
@@ -88,7 +93,7 @@ productsRouter.put("/:id", async (req, res) => {
 
         if(!product) return res.status(404).send({ status: 404, success: false, error: true, response: "Product not found." }) 
     
-        const all = products.map(x => x.id === product.id ? {...product, title, description, category, stock, price, code, status} : x)
+        const all = products.map(x => x.id === product.id ? {...product, title, description, category, stock, price, code, status, thumbnails} : x)
     
         await fs.promises.writeFile(PRODUCTS_PATH, JSON.stringify(all, null, "\t"))
 

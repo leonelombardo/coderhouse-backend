@@ -6,6 +6,8 @@ const inputDescription = document.querySelector("#description")
 const inputPrice = document.querySelector("#price")
 const inputStock = document.querySelector("#stock")
 const inputCode = document.querySelector("#code")
+const thumbnailsInput = document.querySelector("#thumbnails")
+const statusRadios = document.getElementsByName("status")
 
 formUpdateProduct.addEventListener("submit", async (event) => {
     event.preventDefault()
@@ -18,8 +20,10 @@ formUpdateProduct.addEventListener("submit", async (event) => {
     const price = inputPrice.value
     const stock = inputStock.value
     const code = inputCode.value
+    const thumbnails = thumbnailsInput.value.split(",")
+    let status
 
-    if(!id || !title || !category || !description || !code) return alert("Please complete all fields.")
+    if(!id || !title || !category || !description || !code || !thumbnails) return alert("Please complete all fields.")
     if(price === null || price === undefined) return alert("Price must be a number.")
     if(stock === null || stock === undefined) return alert("Stock must be a number.")
 
@@ -29,7 +33,9 @@ formUpdateProduct.addEventListener("submit", async (event) => {
         category,
         price,
         stock,
-        code
+        code,
+        status,
+        thumbnails
     }
 
     try{

@@ -1,9 +1,14 @@
 [
 	{
-		"id": "5b8a186a-f0b5-47cc-8dd3-0e534053ff2f",
+		"id": "b3baf9da-7286-4d0a-a32e-a0bf41b3a522",
 		"title": "Ferrari 458 Italia",
 		"description": "The Ferrari 458 Italia is a two-seater, longitudinally mounted rear-engine, rear-wheel drive, 2-door supercar produced by the Italian manufacturer Ferrari from 2009 to 2015 as a replacement for the Ferrari F430. In turn, it was succeeded by the F488, which was unveiled at the 2015 Geneva Motor Show.",
 		"category": "Sportscar",
+		"thumbnails": [
+			"https://upload.wikimedia.org/wikipedia/commons/c/c6/2011_Ferrari_458_Italia_DCT_S-A_4.5_Front.jpg",
+			" https://upload.wikimedia.org/wikipedia/commons/6/6e/Ferrari_458_Italia.jpg",
+			" https://acnews.blob.core.windows.net/imgnews/large/NAZ_319ef8ec0ac341d6aa2304ddacc87c40.jpg"
+		],
 		"stock": "38",
 		"price": "489999",
 		"code": "9avFk87xcPq",
