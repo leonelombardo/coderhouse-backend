@@ -36,6 +36,17 @@ getProductsButton.addEventListener("click", async () => {
                             <span class="product-price dark">$${product.price ?? "No price"}</span>
                             <span class="product-stock dark">Stock: ${product.stock ?? "No stock"}</span>
                             <span class="product-code dark">Product code: ${product.code ?? "No product code"}</span>
+                            <span class="product-code dark">Product status: ${product.status ?? "No product status"}</span>
+                            ${
+                                product.thumbnails
+                                    ? `<div style="display: flex; flex-direction: column; gap: 4px; margin-top: 16px;">
+                                            <span class="product-code dark">Product thumbnails:</span>
+                                            ${
+                                                product.thumbnails.map((thumbnail, index) => `<span class="product-code dark" style="word-break: break-all;">${`${index}: ${thumbnail}` ?? "No thumbnail"}</span>`).join("")
+                                            }
+                                        </div>`
+                                    :"No product code"
+                            }
                         </div>
                     </div>`
             })
