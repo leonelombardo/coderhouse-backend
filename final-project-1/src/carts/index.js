@@ -63,9 +63,6 @@ cartsRouter.post("/", async (req, res) => {
 
 cartsRouter.post("/:cartId/product/:productId", async (req, res) => {
     const { cartId, productId } = req.params
-    
-    if(!cartId) return res.status(400).send({ status: 400, success: false, error: true, response: "Must provide cart ID." })
-    if(!productId) return res.status(400).send({ status: 400, success: false, error: true, response: "Must provide product ID." })
 
     try{
         const response = await fs.promises.readFile(CARTS_PATH, "utf-8")

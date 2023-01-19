@@ -8,14 +8,24 @@ formAddProductToCart.addEventListener("submit", async (event) => {
     const cartID = inputCartID.value
     const productID = inputProductID.value
 
+    if(!cartID) return alert("Must provide a cart ID.")
+    if(!productID) return alert("Must provide a product ID.")
+
     try{
-        const response = await fetch(`/api/carts/${cartID}/product/${productID}`, { method: "POST" })
+        const productResponse = await fetch(`/api/products/${productID}`)
+        
+        if(!productResponse.ok) return alert("Product not found.")
+        
+        const product = await productResponse.json()
+        const { id } = product
+
+        const response = await fetch(`/api/carts/${cartID}/product/${id}`, { method: "POST" })
         const data = await response.json()
         const { error } = data
 
         if(error) return alert(data.response)
 
-        alert(`Product ${productID} added to cart ${cartID}.`)
+        alert(`Product ${id} added to cart ${cartID}.`)
     }catch(error){
         alert(error)
     }
