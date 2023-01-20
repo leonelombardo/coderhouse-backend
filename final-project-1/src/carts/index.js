@@ -98,7 +98,6 @@ cartsRouter.post("/:cartId/product/:productId", async (req, res) => {
 
         res.status(201).send({ status: 201, success: true, error: false, response: `Product (${productId}) added to cart (${cartId}).`})
     }catch(error){
-        console.log(error)
         res.status(500).send({ error: error })
     }
 })
