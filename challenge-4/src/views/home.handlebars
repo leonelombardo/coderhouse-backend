@@ -1,0 +1,22 @@
+{{#if thereAreProducts}}
+    <a href="/realtimeproducts" class="primary-button">Real time products</a>
+    <h1>Products</h1>
+    <div id="products">
+    {{#each products}}
+        <div class="product-card">
+            <img src="{{this.thumbnails}}" alt="{{this.title}}" class="product-card_image"/>
+            <span class="text-xs opacity-50">{{this.id}}</span>
+            <h2 class="product-card_title">{{this.title}}</h2>
+            <p class="text-sm product-card_description">{{this.description}}</p>
+            <div class="product-card_data">
+                <span class="text-sm opacity-50">PRICE: ${{this.price}}</span>
+                <span class="text-sm opacity-50">CODE: {{this.code}}</span>
+                <span class="text-sm opacity-50">STOCK: {{this.stock}}</span>
+                <span class="text-sm opacity-50">STATUS: {{this.status}}</span>
+            </div>
+        </div>
+    {{/each}}
+    </div>
+{{else}}
+    <span>There are no products.</span>
+{{/if}}

@@ -1,0 +1,77 @@
+<a href="/" class="primary-button">Home</a>
+<div class="forms-container">
+    <form id="form-post" class="form">
+        <h1>POST Product</h1>
+        <div class="input-box">
+            <label for="title" class="input-label">Title *</label>
+            <input type="text" class="input" id="title" placeholder="iPhone 13 Pro Max 512GB" required="true">
+        </div>
+        <div class="input-box">
+            <label for="description" class="input-label">Description *</label>
+            <textarea class="input textarea" id="description" placeholder="The iPhone 13 Pro Max is a smartphone designed, developed, and marketed by Apple Inc. " required="true"></textarea>
+        </div>
+        <div style="display: flex; gap: 16px;">
+            <div class="input-box">
+                <label for="code" class="input-label">Code *</label>
+                <input type="text" class="input" id="code" placeholder="9x8F7nmKzlP0" required="true">
+            </div>
+            <div class="input-box">
+                <label for="price" class="input-label">Price *</label>
+                <input type="number" min="0" class="input" id="price" placeholder="1199" required="true">
+            </div>
+        </div>
+        <div style="display: flex; gap: 16px;">
+            <div class="input-box">
+                <label for="status" class="input-label">Status *</label>
+                <label for="status-true" style="display: flex; gap: 8px;">
+                    <input type="radio" value="true" name="status" id="status-true" checked>True
+                </label>
+                <label for="status-false" style="display: flex; gap: 8px;">
+                    <input type="radio" value="false" name="status" id="status-false">False
+                </label>
+            </div>
+            <div class="input-box">
+                <label for="stock" class="input-label">Stock *</label>
+                <input type="number" min="0" class="input" id="stock" placeholder="104">
+            </div>
+        </div>
+        <div class="input-box">
+            <label for="thumbnails" class="input-label">Thumbnail *</label>
+            <input type="text" class="input" id="thumbnail" placeholder="https://www.apple.com/newsroom/images/product/iphone/standard/Apple_iPhone-13-Pro_iPhone-13-Pro-Max_09142021_inline.jpg.large.jpg" required="true">
+        </div>
+        <button type="submit" class="primary-button">Create</button>
+    </form>
+
+    <form id="form-delete" class="form">
+        <h1>DELETE Product</h1>
+        <div class="input-box">
+            <label for="product-id" class="input-label">Product ID</label>
+            <input type="text" class="input" id="product-id" placeholder="fc2661c9-83a8-4dcf-9f12-ce809365e83b" required="true">
+        </div>
+        <button type="submit" class="primary-button">Delete</button>
+    </form>
+</div>
+
+<div id="products">
+    {{#if thereAreProducts}}
+        {{#each products}}
+            <div class="product-card">
+                <img src="{{this.thumbnails}}" alt="{{this.title}}" class="product-card_image"/>
+                <span class="text-xs opacity-50">{{this.id}}</span>
+                <h2 class="product-card_title">{{this.title}}</h2>
+                <p class="text-sm product-card_description">{{this.description}}</p>
+                <div class="product-card_data">
+                    <span class="text-sm opacity-50">PRICE: ${{this.price}}</span>
+                    <span class="text-sm opacity-50">CODE: {{this.code}}</span>
+                    <span class="text-sm opacity-50">STOCK: {{this.stock}}</span>
+                    <span class="text-sm opacity-50">STATUS: {{this.status}}</span>
+                </div>
+            </div>
+        {{/each}}
+    {{else}}
+        <span >There are no products.</span>
+    {{/if}}
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js" type="module"></script>

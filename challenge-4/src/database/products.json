@@ -1,0 +1,32 @@
+[
+	{
+		"id": "fc2661c9-83a8-4dcf-9f12-ce809365e83b",
+		"title": "iPhone 13 Pro Max 512GB",
+		"description": "The iPhone 13 Pro Max is a smartphone designed, developed, and marketed by Apple Inc.",
+		"price": "1199",
+		"code": "9x8F7nmKzlP0",
+		"status": true,
+		"stock": "104",
+		"thumbnails": "https://www.apple.com/newsroom/images/product/iphone/standard/Apple_iPhone-13-Pro_iPhone-13-Pro-Max_09142021_inline.jpg.large.jpg"
+	},
+	{
+		"id": "d066fc69-da83-4cb1-8610-d7618f7c8eb7",
+		"title": "Xiaomi Redmi Note 11 (Snapdragon) Dual SIM 128 GB 4 GB RAM",
+		"description": "The Redmi Note 11 is a line of Android-based smartphones as part of the Redmi Note series by Redmi, a sub-brand of Xiaomi Inc.",
+		"price": "222",
+		"code": "k4jaXp08fdP",
+		"status": true,
+		"stock": "84",
+		"thumbnails": "https://http2.mlstatic.com/D_NQ_NP_907639-MLA52131412062_102022-O.webp"
+	},
+	{
+		"id": "07a63b0d-79fe-433c-90e7-23b5ddc831b4",
+		"title": "MacBook Pro Apple (16\" M1 Pro 10 core CPU 16 core GPU 16 GB RAM 1 TB SSD)",
+		"description": "The MacBook Pro is a line of Mac laptops made by Apple Inc. Introduced in January 2006, it is the higher-end lineup in the MacBook family, sitting above the consumer-focused MacBook Air. It is currently sold with 13-inch, 14-inch, and 16-inch screens, all using Apple silicon M-series chips.",
+		"price": "2971",
+		"code": "7qr5nTa4rJzX",
+		"status": true,
+		"stock": "23",
+		"thumbnails": "https://http2.mlstatic.com/D_NQ_NP_2X_992056-MLA53127199389_012023-F.webp"
+	}
+]
