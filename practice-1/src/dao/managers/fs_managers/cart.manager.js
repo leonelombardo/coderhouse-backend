@@ -7,15 +7,15 @@ export class CartManager{
         this.products_path = `${process.cwd()}/src/json/products.json`
     }
 
-    async getData(){
+    async getCarts(){
         if(!fs.existsSync(this.path)) return { status: 404, ok: false, response: `Resource ${this.path} doesn't exist.` }
         
         try{
             const response = await fs.promises.readFile(this.path)
+            
+            if(!response.length) return { status: 404, ok: false, response: "No carts."}
+            
             const carts = JSON.parse(response)
-
-            if(!carts.length) return { status: 404, ok: false, response: "No carts found. "}
-
 
             return { status: 200, ok: true, response: carts }
         }catch(error){
@@ -23,11 +23,13 @@ export class CartManager{
         }
     }
 
-    async getDataById(id){
+    async getCartById(id){
+        if(!fs.existsSync(this.path)) return { status: 404, ok: false, response: `Resource ${this.path} doesn't exist.` }
+
         try{
             const response = await fs.promises.readFile(this.path)
             
-            if(!response.length) return { status: 404, ok: false, response: "No carts found." }
+            if(!response.length) return { status: 404, ok: false, response: "No carts." }
 
             const data = JSON.parse(response)
             const cart = data.find(x => x.id === id && x)
@@ -41,6 +43,8 @@ export class CartManager{
     }
 
     async createCart(){
+        if(!fs.existsSync(this.path)) return { status: 404, ok: false, response: `Resource ${this.path} doesn't exist.` }
+        
         try{
             const cart = { id: v4(), products: [] }
             
@@ -48,6 +52,7 @@ export class CartManager{
     
             if(!response.length) {
                 await fs.promises.writeFile(this.path, JSON.stringify([cart], null, "\t"))
+
                 return { status: 201, ok: true, response: "Cart created." }
             } 
     
@@ -61,11 +66,13 @@ export class CartManager{
         } 
     }
 
-    async addProduct(cartId, productId){
+    async addProductToCart(cartId, productId){
+        if(!fs.existsSync(this.path) || !fs.existsSync(this.products_path)) return { status: 404, ok: false, response: `Resource ${this.path} doesn't exist.` }
+
         try{
             const responseCarts = await fs.promises.readFile(this.path)
 
-            if(!responseCarts.length) return { status: 404, ok: false, response: "Cart not found." }
+            if(!responseCarts.length) return { status: 404, ok: false, response: "No carts." }
 
             const carts = JSON.parse(responseCarts)
             const cartFound = carts.find(x => x.id === cartId && x)
@@ -74,7 +81,7 @@ export class CartManager{
 
             const responseProducts = await fs.promises.readFile(this.products_path)
             
-            if(!responseProducts.length) return { status: 404, ok: false, response: "Product not found." }
+            if(!responseProducts.length) return { status: 404, ok: false, response: "No products." }
 
             const products = JSON.parse(responseProducts)
             const productFound = products.find(x => x.id === productId && x)
@@ -101,9 +108,14 @@ export class CartManager{
         }
     }
 
-    async delete(id){
+    async deleteCart(id){
+        if(!fs.existsSync(this.path)) return { status: 404, ok: false, response: `Resource ${this.path} doesn't exist.` }
+
         try{
             const response = await fs.promises.readFile(this.path)
+
+            if(!response.length) return { status: 404, ok: false, response: "No carts." }
+
             const data = JSON.parse(response)
 
             const cartFound = data.find(x => x.id === id)

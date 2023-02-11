@@ -6,13 +6,13 @@ export class ProductManager{
         this.path = `${process.cwd()}/src/json/${path}`
     }
     
-    async getData(){
+    async getProducts(){
         if(!fs.existsSync(this.path)) return { status: 404, ok: false, response: `Resource ${this.path} doesn't exist.` }
 
         try{
             const response = await fs.promises.readFile(this.path)
-
-            if(!response.length) return { status: 200, ok: true, response: "No products found." }
+            
+            if(!response.length) return { status: 404, ok: false, response: "No products." }
 
             const data = JSON.parse(response)
             
@@ -22,7 +22,7 @@ export class ProductManager{
         }
     }
 
-    async postData({ title, description, category, thumbnails, stock, price, code, status }){
+    async createProduct({ title, description, category, thumbnails, stock, price, code, status }){
         const product = { id: v4(), title, description, category, thumbnails, stock: +stock, price: +price, code, status }
 
         if(!fs.existsSync(this.path)) return { status: 404, ok: false, response: `Resource "${this.path}" doesn't exist.` }
@@ -46,11 +46,14 @@ export class ProductManager{
         }
     }
 
-    async updateData(id, { title, description, category, thumbnails, stock, price, code, status }){
+    async updateProduct(id, { title, description, category, thumbnails, stock, price, code, status }){
         if(!fs.existsSync(this.path)) return { status: 404, ok: false, response: `Resource ${this.path} doesn't exist.` }
 
         try{
             const response = await fs.promises.readFile(this.path)
+
+            if(!response.length) return { status: 404, ok: false, response: "No products."}
+
             const data = JSON.parse(response)
             const productFound = [...data].find(product => product.id === id)
 
@@ -79,7 +82,7 @@ export class ProductManager{
         }
     }
 
-    async updateAllData(id, { title, description, category, thumbnails, stock, price, code, status }){
+    async updateAllProductData(id, { title, description, category, thumbnails, stock, price, code, status }){
         if(!fs.existsSync(this.path)) return { status: 404, ok: false, response: `Resource "${this.path}" doesn't exist.` }
 
         if(!title || !description || !category || !thumbnails || !code) return { status: 400, ok: false, response: "Missing fields." }
@@ -89,6 +92,9 @@ export class ProductManager{
 
         try{
             const response = await fs.promises.readFile(this.path)
+
+            if(!response.length) return { status: 404, ok: false, response: "No products." }
+
             const data = JSON.parse(response)
             const productFound = [...data].find(product => product.id === id && product)
 
@@ -105,11 +111,14 @@ export class ProductManager{
         }
     }
 
-    async deleteData(id){
+    async deleteProduct(id){
         if(!fs.existsSync(this.path)) return { status: 404, ok: false, response: `Resource "${this.path}" doesn't exist.` }
 
         try{
             const response = await fs.promises.readFile(this.path)
+
+            if(!response.length) return { status: 404, ok: false, response: "No products." }
+
             const data = JSON.parse(response)
             const productFound = [...data].find(product => product.id === id)
 
@@ -125,7 +134,7 @@ export class ProductManager{
         }
     }
     
-    async deleteAllData(){
+    async deleteAllProducts(){
         if(!fs.existsSync(this.path)) return { status: 404, ok: false, response: `Resource "${this.path}" doesn't exist.` }
 
         try{
