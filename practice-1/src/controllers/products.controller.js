@@ -9,7 +9,19 @@ productsController.get("/", async (req, res) => {
     try{
         const response = await productManager.getProducts()
 
-        res.status(response.status).render("home.handlebars", { products: response.response.length && response.response, style: "home.css" })
+        res.status(response.status).json(response)
+    }catch(error){
+        res.status(500).json({ status: 500, ok: false, response: "Internal server error." })
+    }
+})
+
+productsController.get("/:id", async (req, res) => {
+    const { id } = req.params
+
+    try{
+        const response = await productManager.getProductById(id)
+
+        res.status(response.status).json(response)
     }catch(error){
         res.status(500).json({ status: 500, ok: false, response: "Internal server error." })
     }

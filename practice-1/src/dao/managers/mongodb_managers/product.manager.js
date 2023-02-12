@@ -26,6 +26,18 @@ export class ProductManager{
         }
     }
 
+    async getProductById(id){
+        try{
+            const response = await productModel.findById(id)
+
+            if(!response) return { status: 404, ok: false, response: "Product not found." }
+
+            return { status: 200, ok: true, response: response }
+        }catch(error){
+            return { status: 500, ok: false, response: "Internal server error." }
+        }
+    }
+
     async createProduct(data){
         try{
             const product = {...data, stock: +data.stock, price: +data.price } 
