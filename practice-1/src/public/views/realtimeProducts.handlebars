@@ -1,0 +1,87 @@
+<main id="main">
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
+        <h1>Realtime</h1>
+        <a href="/" style="color: #9f9f9f; font-size: 14px; text-decoration: underline;">Home</a>
+    </div>
+    {{#if products}}
+    <div class="forms-container">
+        <form id="form-post" class="form">
+            <h1 class="title">POST</h1>
+            <div style="display: flex; gap: 16px;">
+                <div class="input-box">
+                    <label for="title" class="input-label">Title *</label>
+                    <input type="text" class="input" id="title" placeholder="Ferrari 458" required="true">
+                </div>
+                <div class="input-box">
+                    <label for="category" class="input-label">Category *</label>
+                    <input type="text" class="input" id="category" placeholder="Sportscar" required="true">
+                </div>
+            </div>
+            <div class="input-box">
+                <label for="description" class="input-label">Description *</label>
+                <textarea class="input textarea" id="description" placeholder="The Ferrari 458 Italia (Type F142) is a mid-engine sports car produced by Ferrari. The F458 is the successor of the F430, and was first officially unveiled at the 2009 Frankfurt Motor Show. It was succeeded by the 488 GTB (Gran Turismo Berlinetta), which was unveiled at the 2015 Geneva Motor Show. It was made by hand at Ferrari headquarters in Maranello, Italy." required="true"></textarea>
+            </div>
+            <div style="display: flex; gap: 16px;">
+                <div class="input-box">
+                    <label for="code" class="input-label">Code *</label>
+                    <input type="text" class="input" id="code" placeholder="9df2ar39f7xz3" required="true">
+                </div>
+                <div class="input-box">
+                    <label for="price" class="input-label">Price *</label>
+                    <input type="number" min="0" class="input" id="price" placeholder="230561" required="true">
+                </div>
+            </div>
+            <div style="display: flex; gap: 16px;">
+                <div class="input-box">
+                    <label for="status" class="input-label">Status *</label>
+                    <label for="status-true" style="display: flex; gap: 4px;" class="input-label">
+                        <input type="radio" value="true" name="status" id="status-true" checked>True
+                    </label>
+                    <label for="status-false" style="display: flex; gap: 4px;" class="input-label">
+                        <input type="radio" value="false" name="status" id="status-false">False
+                    </label>
+                </div>
+                <div class="input-box">
+                    <label for="stock" class="input-label">Stock *</label>
+                    <input type="number" min="0" class="input" id="stock" placeholder="24">
+                </div>
+            </div>
+            <div class="input-box">
+                <label for="thumbnails" class="input-label">Thumbnail *</label>
+                <input type="text" class="input" id="thumbnail" placeholder="https://images.carpages.ca/inventory/9355384.336637531?w=1280&h=960&q=75&fit=max&s=eab48e0f44ac93f6c260d39af09ace1e" required="true">
+            </div>
+            <button type="submit" class="primary-button">Create</button>
+        </form>
+
+        <form id="form-delete" class="form">
+            <h1 class="title">DELETE</h1>
+            <div class="input-box">
+                <label for="product-id" class="input-label">Product ID</label>
+                <input type="text" class="input" id="product-id" placeholder="63e8209d86d77f5c36c1eba4" required="true">
+            </div>
+            <button type="submit" class="primary-button">Delete</button>
+        </form>
+    </div>
+
+    <ul id="products">
+        {{#each products}}
+            <li class="product-card">
+                <img class="product-image" src="{{this.thumbnails}}"/>
+                <span class="product-id">{{this.id}}</span>
+                <div style="display: flex; flex-direction: column; gap: 6px; width: 100%">
+                    <h2 class="product-title">{{this.title}}</h2>
+                    <span class="product-category">{{this.category}}</span>
+                </div>
+                <div style="display: flex; flex-direction: column; justify-content: space-between; gap: 16px; flex: 1; width: 100%;">
+                    <p class="product-description">{{this.description}}</p>
+                    <span class="product-price">${{this.price}}</span>
+                </div>
+            </li>
+        {{/each}}
+    </ul>
+        {{else}}
+            <h1 style="text-align: center; font-size: 24px; color: #9f9f9f">There are no products</h1>
+    {{/if}}
+</main>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/realtimeProducts.js"></script>
