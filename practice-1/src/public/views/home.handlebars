@@ -1,10 +1,14 @@
 <main id="main">
     {{#if products}}
-    <h1>Products</h1>
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
+        <h1>Products</h1>
+        <a href="/realtimeproducts" style="color: #9f9f9f; font-size: 14px; text-decoration: underline;">Real time products</a>
+    </div>
     <ul id="products">
         {{#each products}}
             <li class="product-card">
                 <img class="product-image" src="{{this.thumbnails}}"/>
+                <span class="product-id">{{this.id}}</span>
                 <div style="display: flex; flex-direction: column; gap: 4px; width: 100%">
                     <h2 class="product-title">{{this.title}}</h2>
                     <span class="product-category">{{this.category}}</span>
@@ -15,8 +19,8 @@
                 </div>
             </li>
         {{/each}}
+    </ul>
         {{else}}
             <h1 style="text-align: center; font-size: 24px; color: #9f9f9f">There are no products</h1>
-    </ul>
     {{/if}}
 </main>

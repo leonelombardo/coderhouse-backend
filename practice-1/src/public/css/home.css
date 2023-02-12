@@ -40,6 +40,11 @@ h1{
     border-radius: 16px;
 }
 
+.product-id{
+    color: #9f9f9f;
+    font-size: 12px;
+}
+
 .product-title{
     color: #1a1a1a;
     font-size: 24px;
