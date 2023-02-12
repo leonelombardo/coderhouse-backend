@@ -1,0 +1,22 @@
+<main id="main">
+    {{#if products}}
+    <h1>Products</h1>
+    <ul id="products">
+        {{#each products}}
+            <li class="product-card">
+                <img class="product-image" src="{{this.thumbnails}}"/>
+                <div style="display: flex; flex-direction: column; gap: 4px; width: 100%">
+                    <h2 class="product-title">{{this.title}}</h2>
+                    <span class="product-category">{{this.category}}</span>
+                </div>
+                <div style="display: flex; flex-direction: column; justify-content: space-between; gap: 16px;">
+                    <p class="product-description">{{this.description}}</p>
+                    <span class="product-price">${{this.price}}</span>
+                </div>
+            </li>
+        {{/each}}
+        {{else}}
+            <h1 style="text-align: center; font-size: 24px; color: #9f9f9f">There are no products</h1>
+    </ul>
+    {{/if}}
+</main>
