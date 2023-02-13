@@ -20,7 +20,7 @@ realtimeProductsController.get("/realtimeproducts", async (req, res) => {
     try{
         const response = await productManager.getProducts()
         
-        res.status(200).render("realtimeProducts.handlebars", { products: response.response.length ? response.response : false, style: "realtimeProducts.css", title: "Products | Realtime" })
+        res.status(200).render("realtime-products.handlebars", { products: response.response.length ? response.response : false, style: "realtime-products.css", title: "Products | Realtime" })
     }catch(error){
         console.log(error)
         res.status(500).json({ status: 500, ok: false, response: "Internal server error." })
