@@ -4,6 +4,9 @@ export class ProductManager{
     async getProducts(){
         try{
             const response = await productModel.find()
+            
+            if(!response.length) return { status: 404, ok: false, response: "No products." }
+            
             const mapped = response.map(x => (
                 {
                     id: x.id,
@@ -17,9 +20,7 @@ export class ProductManager{
                     status: x.status
                 }
             ))
-
-            if(!response.length) return { status: 404, ok: false, response: "No products." }
-
+            
             return { status: 200, ok: true, response: mapped }
         }catch(error){
             return { status: 500, ok: false, response: "internal server error." }
@@ -38,10 +39,19 @@ export class ProductManager{
         }
     }
 
-    async createProduct(data){
+    async createProduct({ title, description, category, thumbnails, stock, price, code, status }){
+        const product = { title, description, category, thumbnails, stock: +stock, price: +price, code, status }
+
+        if(!title || !description || !category || !thumbnails || !code) return { status: 400, ok: false, response: "Missing fields." }
+        if(stock === undefined || stock === null || stock === false) return { status: 400, ok: false, response: "Missing fields." }
+        if(price === undefined || price === null || price === false) return { status: 400, ok: false, response: "Missing fields." }
+        if(status === undefined || status === null) return { status: 400, ok: false, response: "Missing fields." }
+
         try{
-            const product = {...data, stock: +data.stock, price: +data.price } 
-            
+            const codeRepeated = await productModel.find({ code: code })
+
+            if(codeRepeated.length) return { status: 400, ok: false, response: "Product code already exists." }
+
             const response = await productModel.create(product)
 
             return { status: 201, ok: true, response: "Product created." }

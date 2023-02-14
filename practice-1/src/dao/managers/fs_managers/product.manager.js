@@ -27,6 +27,11 @@ export class ProductManager{
 
         if(!fs.existsSync(this.path)) return { status: 404, ok: false, response: `Resource "${this.path}" doesn't exist.` }
 
+        if(!product.title || !product.description || !product.category || !product.thumbnails || !product.code) return { status: 400, ok: false, response: "Missing fields." }
+        if(product.stock === undefined || product.stock === null || product.stock === false) return { status: 400, ok: false, response: "Missing fields." }
+        if(product.price === undefined || product.price === null || product.price === false) return { status: 400, ok: false, response: "Missing fields." }
+        if(product.status === undefined || product.status === null) return { status: 400, ok: false, response: "Missing fields." }
+
         try{
             const response = await fs.promises.readFile(this.path)
             
@@ -37,6 +42,9 @@ export class ProductManager{
             }
 
             const data = JSON.parse(response)
+            const codeRepeated = data.find(x => x.code === product.code)
+
+            if(codeRepeated) return { status: 400, ok: false, response: "Product code already exists." }
 
             await fs.promises.writeFile(this.path, JSON.stringify([...data, product], null, "\t"))
 
