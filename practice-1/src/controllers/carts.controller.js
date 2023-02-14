@@ -1,9 +1,9 @@
 import { Router } from "express"
-import { CartManager } from "../dao/managers/fs_managers/cart.manager.js"
+import { CartManager } from "../dao/managers/mongodb_managers/cart.manager.js"
 
 export const cartsController = Router()
 
-const cartManager = new CartManager("carts.json")
+const cartManager = new CartManager()
 
 cartsController.get("/", async (req, res) => {
     try{
