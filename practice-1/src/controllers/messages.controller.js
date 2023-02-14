@@ -19,7 +19,7 @@ messagesController.post("/", async (req, res) => {
     const { user, message } = req.body
 
     try{
-        const response = await messageManager.createMessage(user, message)
+        const response = await messageManager.createMessage({ user, message })
 
         res.status(response.status).json(response)
     }catch(error){

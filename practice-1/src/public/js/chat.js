@@ -75,6 +75,8 @@ socket.on("user-connected", email => notification(`${email} joined to chat.`))
 socket.on("new-message", data => {
     messages.innerHTML = ""
 
+    if(typeof(data) !== "object" || !data.length) return
+
     data.forEach(message => {
         messages.innerHTML += `
             <div class="message ${message.user === inputEmail.value ? 'sender' : ''}">

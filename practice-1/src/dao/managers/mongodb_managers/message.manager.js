@@ -43,7 +43,7 @@ export class MessageManager{
         try{
             const response = await messageModel.deleteMany()
 
-            return { status: 200, ok: true, response: "All products deleted." }
+            return { status: 200, ok: true, response: "All messages deleted." }
         }catch(error){
             return { status: 500, ok: false, response: "Internal server error." }
         }
