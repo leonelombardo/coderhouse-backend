@@ -5,17 +5,17 @@ export const productsController = Router()
 
 const productManager = new ProductManager()
 
-productsController.get("/", async (req, res) => {
+productsController.get("/", async (req, res, next) => {
     try{
         const response = await productManager.getProducts()
 
         res.status(response.status).json(response)
     }catch(error){
-        res.status(500).json({ status: 500, ok: false, response: "Internal server error." })
+        next(error)
     }
 })
 
-productsController.get("/:id", async (req, res) => {
+productsController.get("/:id", async (req, res, next) => {
     const { id } = req.params
 
     try{
@@ -23,11 +23,11 @@ productsController.get("/:id", async (req, res) => {
 
         res.status(response.status).json(response)
     }catch(error){
-        res.status(500).json({ status: 500, ok: false, response: "Internal server error." })
+        next(error)
     }
 })
 
-productsController.post("/", async (req, res) => {
+productsController.post("/", async (req, res, next) => {
     const { title, description, category, thumbnails, stock, price, code, status=true } = req.body
     const product = { title, description, category, thumbnails, stock, price, code, status }
 
@@ -36,11 +36,11 @@ productsController.post("/", async (req, res) => {
 
         res.status(response.status).json(response)
     }catch(error){
-        res.status(500).json({ status: 500, ok: false, response: "Internal server error." })
+        next(error)
     }
 })
 
-productsController.patch("/:id", async (req, res) => {
+productsController.patch("/:id", async (req, res, next) => {
     const { id } = req.params
     const { title, description, category, thumbnails, stock, price, code, status } = req.body
     const product = { title, description, category, thumbnails, stock, price, code, status }
@@ -50,11 +50,11 @@ productsController.patch("/:id", async (req, res) => {
 
         res.status(response.status).json(response)
     }catch(error){
-        res.status(500).json({ status: 500, ok: false, response: "Internal server error." })
+        next(error)
     }
 })
 
-productsController.put("/:id", async (req, res) => {
+productsController.put("/:id", async (req, res, next) => {
     const { id } = req.params
     const { title, description, category, thumbnails, stock, price, code, status } = req.body
     const product = { title, description, category, thumbnails, stock, price, code, status }
@@ -64,11 +64,11 @@ productsController.put("/:id", async (req, res) => {
 
         res.status(response.status).json(response)
     }catch(error){
-        res.status(500).json({ status: 500, ok: false, response: "Internal server error." })
+        next(error)
     }
 })
 
-productsController.delete("/:id", async (req, res) => {
+productsController.delete("/:id", async (req, res, next) => {
     const { id } = req.params
     
     try{
@@ -76,16 +76,16 @@ productsController.delete("/:id", async (req, res) => {
 
         res.status(response.status).json(response)
     }catch(error){
-        res.status(500).json({ status: 500, ok: false, response: "Internal server error." })
+        next(error)
     }
 })
 
-productsController.delete("/", async (req, res) => {
+productsController.delete("/", async (req, res, next) => {
     try{
         const response = await productManager.deleteAllProducts()
         
         res.status(response.status).json(response)
     }catch(error){
-        res.status(500).json({ status: 500, ok: false, response: "Internal server error." })
+        next(error)
     }
 })

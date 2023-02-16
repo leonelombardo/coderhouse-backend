@@ -5,17 +5,17 @@ export const messagesController = Router()
 
 const messageManager = new MessageManager("messages.json")
 
-messagesController.get("/", async (req, res) => {
+messagesController.get("/", async (req, res, next) => {
     try{
         const response = await messageManager.getMessages()
 
         res.status(response.status).json(response)
     }catch(error){
-        res.status(500).json({ status: 500, ok: false, response: "Internal server error." })
+        next(error)
     }
 })
 
-messagesController.post("/", async (req, res) => {
+messagesController.post("/", async (req, res, next) => {
     const { user, message } = req.body
 
     try{
@@ -23,21 +23,21 @@ messagesController.post("/", async (req, res) => {
 
         res.status(response.status).json(response)
     }catch(error){
-        res.status(500).json({ status: 500, ok: false, response: "Internal server error." })
+        next(error)
     }
 })
 
-messagesController.delete("/", async (req, res) => {
+messagesController.delete("/", async (req, res, next) => {
     try{
         const response = await messageManager.deleteAllMessages()
         
         res.status(response.status).json(response)
     }catch(error){
-        res.status(500).json({ status: 500, ok: false, response: "Internal server error." })
+        next(error)
     }
 })
 
-messagesController.delete("/:id", async (req, res) => {
+messagesController.delete("/:id", async (req, res, next) => {
     const { id } = req.params
 
     try{
@@ -45,6 +45,6 @@ messagesController.delete("/:id", async (req, res) => {
 
         res.status(response.status).json(response)
     }catch(error){
-        res.status(500).json({ status: 500, ok: false, response: "Internal server error." })
+        next(error)
     }
 })

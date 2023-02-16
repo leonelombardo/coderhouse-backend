@@ -5,17 +5,17 @@ export const cartsController = Router()
 
 const cartManager = new CartManager()
 
-cartsController.get("/", async (req, res) => {
+cartsController.get("/", async (req, res, next) => {
     try{
         const response = await cartManager.getCarts()
         
         res.status(response.status).json(response)
     }catch(error){
-        res.status(500).json({ status: 500, ok: false, response: "Internal server error." })
+        next(error)
     }
 })
 
-cartsController.get("/:id", async (req, res) => {
+cartsController.get("/:id", async (req, res, next) => {
     const { id } = req.params
 
     try{
@@ -23,21 +23,21 @@ cartsController.get("/:id", async (req, res) => {
 
         res.status(response.status).json(response)
     }catch(error){
-        res.status(500).json({ status: 500, ok: false, response: "Internal server error." })
+        next(error)
     }
 })
 
-cartsController.post("/", async (req, res) => {
+cartsController.post("/", async (req, res, next) => {
     try{
         const response = await cartManager.createCart()
 
         res.status(response.status).json(response)
     }catch(error){
-        res.status(500).json({ status: 500, ok: false, response: "Internal server error." })
+        next(error)
     }
 })
 
-cartsController.post("/:cartId/product/:productId", async (req, res) => {
+cartsController.post("/:cartId/product/:productId", async (req, res, next) => {
     const { cartId, productId } = req.params
 
     try{
@@ -45,11 +45,11 @@ cartsController.post("/:cartId/product/:productId", async (req, res) => {
 
         res.status(response.status).json(response)
     }catch(error){
-        res.status(500).json({ status: 500, ok: false, response: "Internal server error." })
+        next(error)
     }
 })
 
-cartsController.delete("/:id", async (req, res) => {
+cartsController.delete("/:id", async (req, res, next) => {
     const { id } = req.params
 
     try{
@@ -57,6 +57,6 @@ cartsController.delete("/:id", async (req, res) => {
         
         res.status(response.status).json(response)
     }catch(error){
-        res.status(500).json({ status: 500, ok: false, response: "Internal server error." })
+        next(error)
     }
 })
