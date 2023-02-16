@@ -14,7 +14,7 @@ app.use(express.static(__dirname + "/public"))
 
 app.engine("handlebars", handlebars.engine())
 
-app.set("views", __dirname + "/public/views")
+app.set("views", __dirname + "/views")
 
 mongoose.set("strictQuery", false)
 
