@@ -1,18 +1,19 @@
 import { cartModel } from "../../models/carts.model.js"
 import { productModel } from "../../models/products.model.js"
+import { CustomError } from "../../../utils/CustomError.js"
 
 export class CartManager{
     async getCarts(){
         try{
             const response = await cartModel.find()
             
-            if(!response.length) return { status: 404, ok: false, response: "No carts."}
+            if(!response.length) throw new CustomError({ status: 404, ok: false, response: "No carts."})
 
             const mapped = response.map(x => ({ id: x._id, products: x.products }))
 
             return { status: 200, ok: true, response: mapped }
         }catch(error){
-            return { status: 500, ok: false, response: "Internal server error." }
+            throw new CustomError(error)
         }
     }
 
@@ -20,13 +21,13 @@ export class CartManager{
         try{
             const cartFound = await cartModel.find({ _id: id })
             
-            if(!cartFound || !cartFound.length) return { status: 404, ok: false, response: "Cart not found" }
+            if(!cartFound || !cartFound.length) throw new CustomError({ status: 404, ok: false, response: "Cart not found" })
 
             const mapped = cartFound.map(x => ({ id: x._id, products: x.products }))
 
             return { status: 200, ok: true, response: mapped }
         }catch(error){
-            return { status: 500, ok: false, response: "Internal server error." }
+            throw new CustomError(error)
         }
     }
 
@@ -36,7 +37,7 @@ export class CartManager{
         
             return { status: 201, ok: true, response: "Cart created." }
         }catch(error){
-            return { status: 500, ok: false, response: "Internal server error." }
+            throw new CustomError(error)
         } 
     }
 
@@ -44,11 +45,11 @@ export class CartManager{
         try{
             const cartFound = await cartModel.find({ _id: cartId})
 
-            if(!cartFound || !cartFound.length) return { status: 404, ok: false, response: "Cart not found." }
+            if(!cartFound || !cartFound.length) throw new CustomError({ status: 404, ok: false, response: "Cart not found." })
 
             const productFound = await productModel.find({ _id: productId })
             
-            if(!productFound) return { status: 404, ok: false, response: "The product that you are trying to add is not found." }
+            if(!productFound || !productFound.length) throw new CustomError({ status: 404, ok: false, response: "The product that you are trying to add doesn't exist" })
             
             const cartProducts = cartFound[0].products
 
@@ -65,7 +66,7 @@ export class CartManager{
             return { status: 201, ok: true, response: "Product added to cart." }
         }catch(error){
             console.log(error)
-            return { status: 500, ok: false, response: "Internal server error." }
+            throw new CustomError(error)
         }
     }
 
@@ -73,13 +74,13 @@ export class CartManager{
         try{
             const cartFound = await cartModel.find({ _id: id })
 
-            if(!cartFound || !cartFound.length) return { status: 404, ok: false, response: "Cart not found." }
+            if(!cartFound || !cartFound.length) throw new CustomError({ status: 404, ok: false, response: "Cart not found." })
 
             await cartModel.deleteOne({ _id: id })
 
             return { status: 200, ok: true, response: "Cart deleted." }
         }catch(error){
-            return { status: 500, ok: false, response: "Internal server error." }
+            throw new CustomError(error)
         }
     }
 }

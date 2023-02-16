@@ -1,11 +1,12 @@
 import { productModel } from "../../models/products.model.js"
+import { CustomError } from "../../../utils/CustomError.js"
 
 export class ProductManager{
     async getProducts(){
         try{
             const response = await productModel.find()
             
-            if(!response.length) return { status: 404, ok: false, response: "No products." }
+            if(!response.length) throw new CustomError({ status: 404, ok: false, response: "No products." })
             
             const mapped = response.map(x => (
                 {
@@ -23,7 +24,7 @@ export class ProductManager{
             
             return { status: 200, ok: true, response: mapped }
         }catch(error){
-            return { status: 500, ok: false, response: "internal server error." }
+            throw new CustomError(error)
         }
     }
 
@@ -31,32 +32,32 @@ export class ProductManager{
         try{
             const response = await productModel.findById(id)
 
-            if(!response) return { status: 404, ok: false, response: "Product not found." }
+            if(!response) throw new CustomError({ status: 404, ok: false, response: "Product not found." })
 
             return { status: 200, ok: true, response: response }
         }catch(error){
-            return { status: 500, ok: false, response: "Internal server error." }
+            throw new CustomError(error)
         }
     }
 
     async createProduct({ title, description, category, thumbnails, stock, price, code, status }){
         const product = { title, description, category, thumbnails, stock: +stock, price: +price, code, status }
 
-        if(!title || !description || !category || !thumbnails || !code) return { status: 400, ok: false, response: "Missing fields." }
-        if(stock === undefined || stock === null || stock === false) return { status: 400, ok: false, response: "Missing fields." }
-        if(price === undefined || price === null || price === false) return { status: 400, ok: false, response: "Missing fields." }
-        if(status === undefined || status === null) return { status: 400, ok: false, response: "Missing fields." }
+        if(!title || !description || !category || !thumbnails || !code) throw new CustomError({ status: 400, ok: false, response: "Missing fields." })
+        if(stock === undefined || stock === null || stock === false) throw new CustomError({ status: 400, ok: false, response: "Missing fields." })
+        if(price === undefined || price === null || price === false) throw new CustomError({ status: 400, ok: false, response: "Missing fields." })
+        if(status === undefined || status === null) throw new CustomError({ status: 400, ok: false, response: "Missing fields." })
 
         try{
             const codeRepeated = await productModel.find({ code: code })
 
-            if(codeRepeated.length) return { status: 400, ok: false, response: "Product code already exists." }
+            if(codeRepeated.length) throw new CustomError({ status: 400, ok: false, response: "Product code already exists." })
 
             const response = await productModel.create(product)
 
             return { status: 201, ok: true, response: "Product created." }
         }catch(error){
-            return { status: 500, ok: false, response: "Internal server error." }
+            throw new CustomError(error)
         }
     }
 
@@ -64,7 +65,7 @@ export class ProductManager{
         try{
             const productFound = await productModel.findById(id)
             
-            if(!productFound) return { status: 404, ok: false, response: "Product not found." }
+            if(!productFound) throw new CustomError({ status: 404, ok: false, response: "Product not found." })
             
             const productData = productFound._doc
 
@@ -84,7 +85,7 @@ export class ProductManager{
             return { status: 200, ok: true, response: "Product updated." }
         }catch(error){
             console.log(error)
-            return { status: 500, ok: false, response: "Internal server error." }
+            throw new CustomError(error)
         }
     }
 
@@ -92,14 +93,14 @@ export class ProductManager{
         try{
             const productFound = await productModel.findById(id)
             
-            if(!productFound) return { status: 404, ok: false, response: "Product not found." }
+            if(!productFound) throw new CustomError({ status: 404, ok: false, response: "Product not found." })
             
             const productData = productFound._doc
 
-            if(!title || !description || !category || !thumbnails || !code) return { status: 400, ok: false, response: "Missing fields." }
-            if(stock === undefined || stock === null || stock === false) return { status: 400, ok: false, response: "Missing fields." }
-            if(price === undefined || price === null || price === false) return { status: 400, ok: false, response: "Missing fields." }
-            if(status === undefined || status === null) return { status: 400, ok: false, response: "Missing fields." }
+            if(!title || !description || !category || !thumbnails || !code) throw new CustomError({ status: 400, ok: false, response: "Missing fields." })
+            if(stock === undefined || stock === null || stock === false) throw new CustomError({ status: 400, ok: false, response: "Missing fields." })
+            if(price === undefined || price === null || price === false) throw new CustomError({ status: 400, ok: false, response: "Missing fields." })
+            if(status === undefined || status === null) throw new CustomError({ status: 400, ok: false, response: "Missing fields." })
 
             const updatedProduct = { ...productData, title, description, category, thumbnails: thumbnails?.length ? thumbnails : [thumbnails], stock: +stock, price: +price, code, status }
 
@@ -108,7 +109,7 @@ export class ProductManager{
             return { status: 200, ok: true, response: "Product updated." }
         }catch(error){
             console.log(error)
-            return { status: 500, ok: false, response: "Internal server error." }
+            throw new CustomError(error)
         }
     }
 
@@ -116,14 +117,14 @@ export class ProductManager{
         try{
             const productFound = await productModel.findById(id)
 
-            if(!productFound) return { status: 404, ok: false, response: "Product not found." }
+            if(!productFound) throw new CustomError({ status: 404, ok: false, response: "Product not found." })
 
             const response = await productModel.deleteOne({ _id: id })
 
             return { status: 200, ok: true, response: "Product deleted." }
         }catch(error){
             console.log(error)
-            return { status: 500, ok: false, response: "Internal server error." }
+            throw new CustomError(error)
         }
     }
 
@@ -133,7 +134,7 @@ export class ProductManager{
 
             return { status: 200, ok: true, response: "All products deleted." }
         }catch(error){
-            return { status: 500, ok: false, response: "Internal server error." }
+            throw new CustomError(error)
         }
     }
 }

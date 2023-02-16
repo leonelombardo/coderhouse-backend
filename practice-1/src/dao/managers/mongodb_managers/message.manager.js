@@ -1,17 +1,18 @@
 import { messageModel } from "../../models/messages.model.js"
+import { CustomError } from "../../../utils/CustomError.js"
 
 export class MessageManager{
     async getMessages(){
         try{
             const response = await messageModel.find()
             
-            if(!response.length) return { status: 404, ok: false, response: "No messages." }
+            if(!response.length) throw new CustomError({ status: 404, ok: false, response: "No messages." })
             
             const mapped = response.map(x => ({ id: x.id, user: x.user, message: x.message }))
 
             return { status: 200, ok: true, response: mapped }
         }catch(error){
-            return { status: 500, ok: false, response: "Internal server error." }
+            throw new CustomError(error)
         }
     }
 
@@ -21,7 +22,7 @@ export class MessageManager{
 
             return { status: 201, ok: true, response: "Message sent." }
         }catch(error){
-            return { status: 500, ok: false, response: "Internal server error." }
+            throw new CustomError(error)
         }
     }
 
@@ -29,13 +30,13 @@ export class MessageManager{
         try{
             const messageFound = await messageModel.findById(id)
 
-            if(!messageFound) return { status: 404, ok: false, response: "Message not found." }
+            if(!messageFound) throw new CustomError({ status: 404, ok: false, response: "Message not found." })
 
             const response = await messageModel.deleteOne({ _id: id })
 
             return { status: 200, ok: true, response: "Message deleted." }
         }catch(error){
-            return { status: 500, ok: false, response: "Internal server error." }
+            throw new CustomError(error)
         }
     }
 
@@ -45,7 +46,7 @@ export class MessageManager{
 
             return { status: 200, ok: true, response: "All messages deleted." }
         }catch(error){
-            return { status: 500, ok: false, response: "Internal server error." }
+            throw new CustomError(error)
         }
     }
 }
