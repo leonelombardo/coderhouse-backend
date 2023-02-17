@@ -49,7 +49,7 @@ export class CartManager{
 
             const productFound = await productModel.find({ _id: productId })
             
-            if(!productFound || !productFound.length) throw new CustomError({ status: 404, ok: false, response: "The product that you are trying to add doesn't exist" })
+            if(!productFound || !productFound.length) throw new CustomError({ status: 404, ok: false, response: "The product that you are trying to add doesn't exist." })
             
             const cartProducts = cartFound[0].products
 
