@@ -6,11 +6,14 @@ export const productsController = Router()
 const productManager = new ProductManager()
 
 productsController.get("/", async (req, res, next) => {
+    const { limit, page, sort, query } = req.query
+
     try{
-        const response = await productManager.getProducts()
+        const response = await productManager.getProducts(limit, page, sort, query)
 
         res.status(response.status).json(response)
     }catch(error){
+        console.log(error)
         next(error)
     }
 })

@@ -1,14 +1,24 @@
 import { productModel } from "../../models/products.model.js"
 import { CustomError } from "../../../utils/CustomError.js"
+import { PORT } from "../../../config/server.config.js"
 
 export class ProductManager{
-    async getProducts(){
+    async getProducts(limit=10, page=1, sort, query){
+        let filter
+
+        if(query && query.includes("%")){
+            const [key, value] = query.split("%20").join(" ").split("%")
+            filter = { [key]: value }
+        }else{
+            filter = null
+        }
+
         try{
-            const response = await productModel.find()
+            const response = await productModel.paginate(filter, { limit, page, sort: { price: sort } })
+
+            if(!response.docs || !response.docs.length) throw new CustomError({ status: 404, ok: false, response: "No products." })
             
-            if(!response.length) throw new CustomError({ status: 404, ok: false, response: "No products." })
-            
-            const mapped = response.map(x => (
+            const mapped = response.docs.map(x => (
                 {
                     id: x.id,
                     title: x.title,
@@ -21,8 +31,12 @@ export class ProductManager{
                     status: x.status
                 }
             ))
+
+            const { totalPages, prevPage, nextPage, hasPrevPage, hasNextPage } = response
+            const prevLink = hasPrevPage ? `localhost:${PORT}/api/products${limit ? `?limit=${limit}` : ""}${page ? `?page=${response.page - 1}` : ""}${sort ? `?sort=${sort}` : ""}` : null
+            const nextLink = hasNextPage ? `localhost:${PORT}/api/products${limit ? `?limit=${limit}` : ""}${page ? `?page=${response.page + 1}` : ""}${sort ? `?sort=${sort}` : ""}` : null
             
-            return { status: 200, ok: true, response: mapped }
+            return { status: 200, ok: true, response: mapped, totalPages, prevPage, nextPage, page: response.page, hasPrevPage, hasNextPage, prevLink, nextLink }
         }catch(error){
             throw new CustomError(error)
         }
