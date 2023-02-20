@@ -73,6 +73,31 @@ h1{
     font-weight: bold;
 }
 
+.current-page{
+    color: #1a1a1a;
+    width: fit-content;
+}
+
+.link{
+    color: #1a1a1a;
+    width: fit-content;
+}
+
+.link:hover{
+    color: #6f6f6f;
+}
+
+.primary-button{
+    all: unset;
+    background-color: #06f;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+}
+
 @media (max-width: 400px){
     #main{
         padding: 24px 16px;

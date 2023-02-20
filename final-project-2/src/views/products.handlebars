@@ -1,0 +1,54 @@
+<main id="main">
+    {{#if products}}
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
+        <h1>Products</h1>
+    </div>
+    <ul id="products">
+        {{#each products}}
+            <li class="product-card">
+                <img class="product-image" src="{{this.thumbnails}}"/>
+                <span class="product-id">{{this.id}}</span>
+                <div style="display: flex; flex-direction: column; gap: 6px; width: 100%">
+                    <h2 class="product-title">{{this.title}}</h2>
+                    <span class="product-category">{{this.category}}</span>
+                </div>
+                <div style="display: flex; flex-direction: column; justify-content: space-between; gap: 16px; flex: 1; width: 100%;">
+                    <p class="product-description">{{this.description}}</p>
+                    <div style="display: flex; justify-content: space-between; gap: 16px;">
+                        <button class="primary-button" id="button-{{this.id}}" value="{{this.id}}" onclick="handleClick(event)">Add to cart</button>
+                        <span class="product-price">${{this.price}}</span>
+                    </div>
+                </div>
+            </li>
+        {{/each}}
+    </ul>
+    <div style="display: flex; gap: 24px; font-size: 14px;">
+        {{#if hasPrevPage}}
+            <a href="http://{{prevLink}}" class="link">Previous page ({{prevPage}})</a>
+        {{/if}}
+        <span class="current-page">Current page ({{page}})</span>
+        {{#if hasNextPage}}
+            <a href="http://{{nextLink}}" class="link">Next page ({{nextPage}})</a>
+        {{/if}}
+    </div>
+    {{else}}
+        <h1 style="text-align: center; font-size: 24px; color: #9f9f9f">There are no products</h1>
+    {{/if}}
+</main>
+
+<script>
+    const handleClick = async (event) => {
+        const productId = event.target.value
+        const cartId = "63efce8d9d92596c5c0324a5"
+
+        try{
+            const response = await fetch(`/api/carts/${cartId}/product/${productId}`, { method: "POST" })
+            const data = await response.json()
+
+            if(data.ok) alert("Product added to cart.")
+            if(!data.ok) alert("Please try again later.")
+        }catch(error){
+            console.error(error)
+        }
+    }
+</script>
