@@ -39,7 +39,7 @@
 <script>
     const handleClick = async (event) => {
         const productId = event.target.value
-        const cartId = "63efce8d9d92596c5c0324a5"
+        const cartId = "63f2f9fbf702091f5a8adb81"
 
         try{
             const response = await fetch(`/api/carts/${cartId}/product/${productId}`, { method: "POST" })
