@@ -1,5 +1,7 @@
 import express from "express"
 import mongoose from "mongoose"
+import Handlebars from "handlebars"
+import { allowInsecurePrototypeAccess } from "@handlebars/allow-prototype-access"
 import handlebars from "express-handlebars"
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -18,7 +20,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + "/public"))
 
-app.engine("handlebars", handlebars.engine())
+app.engine("handlebars", handlebars.engine({ handlebars: allowInsecurePrototypeAccess(Handlebars) }))
 
 
 app.set("views", __dirname + "/views")
