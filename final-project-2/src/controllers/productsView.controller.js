@@ -16,7 +16,7 @@ productsViewController.get("/", async (req, res, next) => {
         const prevLink = hasPrevPage ? `localhost:${PORT}/products?page=${response.page - 1}` : null
         const nextLink = hasNextPage ? `localhost:${PORT}/products?page=${response.page + 1}` : null
         
-        res.status(response.status).render("products.handlebars", { products: response.response, prevPage, nextPage, page: response.page, hasPrevPage, hasNextPage, prevLink, nextLink, style: "home.css", title: "Products" })
+        res.status(response.status).render("products.handlebars", { products: response.response, prevPage, nextPage, page: response.page, hasPrevPage, hasNextPage, prevLink, nextLink, style: "home.css", title: `Products | Page (${response.page})` })
     }catch(error){
         next(error)
     }

@@ -10,8 +10,9 @@ cartsViewController.get("/:id", async (req, res, next) => {
     
     try{
         const response = await cartManager.getCartById(id)
+        const products = response.response[0].products
         
-        res.status(response.status).render("cart.handlebars", { id: response.response[0].id, products: response.response[0].products, style: "carts.css", title: "Carts" })
+        res.status(response.status).render("cart.handlebars", { id: response.response[0].id, products, style: "home.css", title: "Carts | Home" })
     }catch(error){
         next(error)
     }
