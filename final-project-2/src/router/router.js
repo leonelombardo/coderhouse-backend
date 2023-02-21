@@ -3,6 +3,7 @@ import { cartsController } from "../controllers/carts.controller.js"
 import { messagesController } from "../controllers/messages.controller.js"
 import { chatsController } from "../controllers/chats.controller.js"
 import { productsViewController } from "../controllers/productsView.controller.js"
+import { cartsViewController } from "../controllers/cartsView.controller.js"
 import { realtimeProductsController } from "../controllers/realtimeProducts.controller.js"
 
 export const router = (app) => {
@@ -11,5 +12,6 @@ export const router = (app) => {
     app.use("/api/messages", messagesController)
     app.use("/chat", chatsController)
     app.use("/products", productsViewController)
+    app.use("/carts", cartsViewController)
     app.use("/", realtimeProductsController)
 }
