@@ -1,9 +1,9 @@
 <main id="main">
     {{#if products}}
-    <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
+    <section class="header">
         <h1>Products</h1>
         <a href="/realtimeproducts" style="color: #9f9f9f; font-size: 14px; text-decoration: underline;">Real time products</a>
-    </div>
+    </section>
     <ul id="products">
         {{#each products}}
             <li class="product-card">

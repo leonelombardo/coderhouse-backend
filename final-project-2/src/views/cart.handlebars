@@ -1,20 +1,26 @@
 <main id="main">
-    <div class="box">
-        <h1 class="title">Cart ID</h1>
-        <span class="value">{{id}}</span>
-    </div>
-    <ul class="carts">
+    {{#if products}}
+    <section class="header">
+        <h1>Cart</h1>
+        <span style="color: #9f9f9f">{{id}}</span>
+    </section>
+    <ul id="products">
         {{#each products}}
-            <li class="cart">
-                <div class="box">
-                    <h4 class="key">Product ID</h4>
-                    <span class="value">{{this.id}}</span>
+            <li class="product-card">
+                <img class="product-image" src="{{this.id.thumbnails}}"/>
+                <span class="product-id">{{this.id._id}}</span>
+                <div style="display: flex; flex-direction: column; gap: 6px; width: 100%">
+                    <h2 class="product-title">{{this.id.title}}</h2>
+                    <span class="product-category">{{this.id.category}}</span>
                 </div>
-                <div class="box">
-                    <h4 class="key">Quantity</h4>
-                    <span class="value">{{this.quantity}}</span>
+                <div style="display: flex; flex-direction: column; justify-content: space-between; gap: 16px; flex: 1; width: 100%;">
+                    <p class="product-description">{{this.id.description}}</p>
+                    <span class="product-price">${{this.id.price}}</span>
                 </div>
             </li>
         {{/each}}
     </ul>
+        {{else}}
+            <h1 style="text-align: center; font-size: 24px; color: #9f9f9f">There are no products</h1>
+    {{/if}}
 </main>
