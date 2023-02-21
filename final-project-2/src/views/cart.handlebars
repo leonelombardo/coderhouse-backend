@@ -1,0 +1,20 @@
+<main id="main">
+    <div class="box">
+        <h1 class="title">Cart ID</h1>
+        <span class="value">{{id}}</span>
+    </div>
+    <ul class="carts">
+        {{#each products}}
+            <li class="cart">
+                <div class="box">
+                    <h4 class="key">Product ID</h4>
+                    <span class="value">{{this.id}}</span>
+                </div>
+                <div class="box">
+                    <h4 class="key">Quantity</h4>
+                    <span class="value">{{this.quantity}}</span>
+                </div>
+            </li>
+        {{/each}}
+    </ul>
+</main>
