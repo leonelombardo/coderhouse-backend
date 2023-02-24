@@ -35,7 +35,7 @@ export class CartManager{
         try{
             const response = await cartModel.create({ products: []})
         
-            return { status: 201, ok: true, response: "Cart created." }
+            return { status: 201, ok: true, response: "Cart created.", id: response._id }
         }catch(error){
             throw new CustomError(error)
         } 
@@ -53,11 +53,11 @@ export class CartManager{
             
             const cartProducts = cartFound[0].products
 
-            const productRepeated = cartProducts.find(x => x.id === productId)
+            const productRepeated = cartProducts.find(x => x.id._id.equals(productId))
             let updatedProducts
 
             if(!productRepeated) updatedProducts = [...cartProducts, { id: productId, quantity: 1}]
-            if(productRepeated) updatedProducts = cartProducts.map(x => x.id === productId ? {...x, quantity: x.quantity + 1} : x)
+            if(productRepeated) updatedProducts = cartProducts.map(x => x.id._id.equals(productId) ? {...x._doc, quantity: x._doc.quantity + 1 } : x)
 
             const updatedCart = {...cartFound, products: updatedProducts}
 
@@ -107,7 +107,7 @@ export class CartManager{
             if(!productFound || !productFound.length) throw new CustomError({ status: 404, ok: false, response: "The product that you are trying to update doesn't exist." })
 
             const cartProducts = cartFound[0].products
-            const updatedProducts = cartProducts.map(x => x.id === productId ? {...x, quantity } : x)
+            const updatedProducts = cartProducts.map(x => x.id._id.equals(productId) ? {...x._doc, quantity } : x)
 
             const updatedCart = {...cartFound, products: updatedProducts}
 
@@ -125,12 +125,13 @@ export class CartManager{
 
             if(!cartFound || !cartFound.length) throw new CustomError({ status: 404, ok: false, response: "Cart not found." })
 
-            const productFound = await productModel.find({ _id: productId })
-            
-            if(!productFound || !productFound.length) throw new CustomError({ status: 404, ok: false, response: "The product that you are trying to delete doesn't exist." })
-
             const cartProducts = cartFound[0].products
-            const updatedProducts = cartProducts.filter(x => x.id !== productId && x)
+            
+            const productFoundInCart = cartProducts.find(x => x.id._id.equals(productId))
+
+            if(!productFoundInCart) throw new CustomError({ status: 404, ok: false, response: "Product not found in cart." })
+
+            const updatedProducts = cartProducts.filter(x => !x.id._id.equals(productId) && x)
 
             const updatedCart = {...cartFound, products: updatedProducts}
 
