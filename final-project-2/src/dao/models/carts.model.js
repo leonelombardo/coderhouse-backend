@@ -9,10 +9,12 @@ const cartSchema = new mongoose.Schema({
                 id: {
                     type: mongoose.Schema.Types.ObjectId,
                     ref: "products" 
-                }
+                },
+                quantity: Number
             }
         ]
-    }
+    },
+    
 })
 
 cartSchema.pre("find", function() { this.populate("products.id") })
