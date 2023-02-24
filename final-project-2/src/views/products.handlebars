@@ -2,6 +2,7 @@
     {{#if products}}
     <section class="header">
         <h1>Products</h1>
+        <a href="/" style="color: #9f9f9f; font-size: 14px; text-decoration: underline;" id="cart">Cart</a>
     </section>
     <ul id="products">
         {{#each products}}
@@ -37,12 +38,39 @@
 </main>
 
 <script>
+    const cart = document.querySelector("#cart")
+
+    document.addEventListener("DOMContentLoaded", async (event) => {
+        const storedCart = localStorage.getItem("cart")
+        
+        if(storedCart){
+            cart.href = `/carts/${storedCart}`
+            cart.value = storedCart
+
+            return
+        }else{
+            try{
+                const response = await fetch("/api/carts", { method: "POST" })
+                const data = await response.json()
+
+
+                cart.href = `/carts/${data.id}`
+                cart.value = data.id
+
+                localStorage.setItem("cart", JSON.stringify(data.id))
+            }catch(error){
+                alert("Internal server error.")
+                alert("Check console for more details.")
+                console.error(error)
+            }
+        }
+    })
+
     const handleClick = async (event) => {
         const productId = event.target.value
-        const cartId = "63f2f9fbf702091f5a8adb81"
 
         try{
-            const response = await fetch(`/api/carts/${cartId}/product/${productId}`, { method: "POST" })
+            const response = await fetch(`/api/carts/${cart.value}/product/${productId}`, { method: "POST" })
             const data = await response.json()
 
             if(data.ok) alert("Product added to cart.")
