@@ -1,0 +1,45 @@
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 48px;
+    width: 100%;
+}
+
+.data{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 400px;
+    width: 100%;
+}
+
+.box{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+}
+
+.label{
+    color: #f9f9f9;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.value{
+    color: #f9f9f975;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.button{
+    all: unset;
+    background-color: #00000050;
+    color: #f9f9f9;
+    text-align: center;
+    padding: 4px 8px;
+    cursor: pointer;
+    width: 100%;
+}
