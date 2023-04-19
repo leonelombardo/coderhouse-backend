@@ -1,0 +1,20 @@
+[
+	{
+		"id": "47f1f658-af90-4688-8a42-b0fe37fafa30",
+		"first_name": "John",
+		"last_name": "Doe",
+		"email": "johndoe@gmail.com",
+		"age": 24,
+		"password": "$2b$10$qqTGmsQo31NLXGbK6SBuDe2Oy9Hp2p8zICMtfXFFKeRilxTLZPNou",
+		"role": "user"
+	},
+	{
+		"id": "3023dbf2-cbef-43fa-b5a6-b4a49b469569",
+		"first_name": "Admin",
+		"last_name": "Test",
+		"email": "admin@test.com",
+		"age": 24,
+		"password": "$2b$10$SzQnFrdvvb6OJ/pDbBLDGOZQZH2DnTVwmgk.hfvSsCbI.GubG7NsS",
+		"role": "admin"
+	}
+]
