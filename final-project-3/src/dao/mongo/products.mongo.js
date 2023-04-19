@@ -1,4 +1,5 @@
 const Products = require("../models/products.model");
+const CustomError = require("../../classes/CustomError");
 
 class ProductsDAO{
     async find(){
@@ -6,20 +7,28 @@ class ProductsDAO{
     }
 
     async findById(id){
-        return await Products.findById(id);
+        const product = await Products.findById(id);
+
+        if(!product) throw new CustomError({ status: 404, ok: false, response: "Product not found." });
+        
+        return product;
     }
 
     async create(body){
         const { title, description, category, thumbnails, stock, price, code, status } = body;
         const product = { title, description, category, thumbnails, stock, price, code, status };
 
-        return await Products.create(product);
+        await Products.create(product);
+    
+        return "Product created.";
     }
 
     async updateSome(id, body){
         const { title, description, category, thumbnails, stock, price, code, status } = body;
 
         const product = await Products.findById(id);
+
+        if(!product) throw new CustomError({ status: 404, ok: false, response: "Product not found." });
 
         const updated = {
             title: title ?? product.title,
@@ -40,8 +49,8 @@ class ProductsDAO{
     async updateAll(id, body){
         const { title, description, category, thumbnails, stock, price, code, status } = body;
 
-        if(!title || !description || !category || !thumbnails.length || !stock || !price || !code) throw new Error("Invalid request.");
-        if(typeof(status) !== "boolean") throw new Error("Invalid request.");
+        if(!title || !description || !category || !thumbnails.length || !stock || !price || !code) throw new CustomError({ status: 400, ok: false, response: "Invalid request." });
+        if(typeof(status) !== "boolean") throw new CustomError({ status: 400, ok: false, response: "Invalid request." });
 
         const updated = { title, description, category, thumbnails, stock, price, code, status };
 

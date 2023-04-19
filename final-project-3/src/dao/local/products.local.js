@@ -1,4 +1,5 @@
 const crypto = require("crypto");
+const CustomError = require("../../classes/CustomError");
 
 class ProductsDAO{
     constructor(){
@@ -12,7 +13,7 @@ class ProductsDAO{
     async findById(id){
         const product = this.products.find(product => product.product === id);
 
-        if(!product) throw new Error("No product matches this ID.");
+        if(!product) throw new CustomError({ status: 404, ok: false, response: "Product not found." });
 
         return product; 
     }
@@ -30,7 +31,7 @@ class ProductsDAO{
         const { title, description, category, thumbnails, stock, price, code, status } = body;
         const product = this.products.find(product => product.id === id);
         
-        if(!product) throw new Error("No product matches this ID.");
+        if(!product) throw new CustomError({ status: 404, ok: false, response: "Product not found." });
 
         const updated = {
             id: product.id,
@@ -52,12 +53,12 @@ class ProductsDAO{
     async updateAll(id, body){
         const product = this.products.find(product => product.id === id);
 
-        if(!product) throw new Error("No product matches this ID.");
+        if(!product) throw new CustomError({ status: 404, ok: false, response: "Product not found." });
         
         const { title, description, category, thumbnails, stock, price, code, status } = body;
 
-        if(!title || !description || !category || !thumbnails.length || !stock || !price || !code) throw new Error("Invalid request.");
-        if(typeof(status) !== "boolean") throw new Error("Invalid request.");
+        if(!title || !description || !category || !thumbnails.length || !stock || !price || !code) throw new CustomError({ status: 400, ok: false, response: "Invalid request." });
+        if(typeof(status) !== "boolean") throw new CustomError({ status: 400, ok: false, response: "Invalid request." });
 
         const updated = { id: product.id, title, description, category, thumbnails, stock, price, code, status };
         
@@ -69,7 +70,7 @@ class ProductsDAO{
     async deleteOne(id){
         const product = this.products.find(product => product.id === id);
 
-        if(!product) throw new Error("No product matches this ID.");
+        if(!product) throw new CustomError({ status: 404, ok: false, response: "Product not found." });
 
         this.products = this.products.filter(product => product.id !== id && product)
 

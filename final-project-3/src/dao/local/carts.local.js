@@ -1,4 +1,5 @@
 const crypto = require("crypto");
+const CustomError = require("../../classes/CustomError");
 
 class CartsDAO{
     constructor(){
@@ -26,7 +27,7 @@ class CartsDAO{
     addProductToCart(cartId, productId){
         const cart = this.carts.find(cart => cart.id === cartId);
 
-        if(!cart) throw new Error("No cart matches this ID.");
+        if(!cart) throw new CustomError({ status: 404, ok: false, response: "Cart not found." });
 
         const repeated = cart.products.find(product => product.product === productId);
 
@@ -37,11 +38,11 @@ class CartsDAO{
     }
 
     async updateProducts(id, body){
-        if(!body.products.length) throw new Error("Invalid request.");
+        if(!body.products.length) throw new CustomError({ status: 400, ok: false, response: "Invalid request." });
 
         const cart = this.carts.find(cart => cart.id === id);
 
-        if(!cart) throw new Error("No cart matches this ID.");
+        if(!cart) throw new CustomError({ status: 404, ok: false, response: "Cart not found." });
 
         return this.carts.find(cart => cart.id === id && (cart.products = body.products));
     }
@@ -51,11 +52,11 @@ class CartsDAO{
 
         const cart = this.carts.find(cart => cart.id === cartId);
 
-        if(!cart) throw new Error("No cart matches this ID.");
+        if(!cart) throw new CustomError({ status: 404, ok: false, response: "Cart not found." });
 
         const found = cart.products.find(product => product.product && productId);
 
-        if(!found) throw new Error("Product not found in cart.");
+        if(!found) throw new CustomError({ status: 404, ok: false, response: "Product not found in cart." });
 
         const update = cart.products.map(product => product.product === productId && (product.quantity = body.quantity));
 
@@ -67,7 +68,7 @@ class CartsDAO{
     async deleteOne(id){
         const cart = this.carts.find(cart => cart.id === id);
 
-        if(!cart) throw new Error("No cart matches this ID.");
+        if(!cart) throw new CustomError({ status: 404, ok: false, response: "Cart not found." });
 
         this.carts = this.carts.filter(x => x.id !== id && x);
         
@@ -77,7 +78,7 @@ class CartsDAO{
     async deleteProductFromCart(cartId, productId){
         const cart = this.carts.find(cart => cart.id === cartId);
 
-        if(!cart) throw new Error("No cart matches this ID.");
+        if(!cart) throw new CustomError({ status: 404, ok: false, response: "Cart not found." });
 
         const update = cart.products.filter(product => product.product !== productId && product);
 
@@ -89,7 +90,7 @@ class CartsDAO{
     async deleteProducts(id){
         const cart = this.carts.find(cart => cart.id === id);
 
-        if(!cart) throw new Error("No cart matches this ID.");
+        if(!cart) throw new CustomError({ status: 404, ok: false, response: "Cart not found." });
 
         const update = cart.products = [];
 
