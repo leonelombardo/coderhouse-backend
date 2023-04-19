@@ -1,17 +1,24 @@
+const fs = require("fs");
 const crypto = require("crypto");
+
 const CustomError = require("../../classes/CustomError");
 
 class ProductsDAO{
     constructor(){
-        this.products = [];
+        this.path = process.cwd() + "/src/fs/products.json"
     }
 
     async find(){
-        return this.products;
+        const response = await fs.promises.readFile(this.path);
+        const products = JSON.parse(response);
+
+        return products;
     }
 
     async findById(id){
-        const product = this.products.find(product => product.product === id);
+        const response = await fs.promises.readFile(this.path);
+        const products = JSON.parse(response);
+        const product = products.find(product => product.id === id);
 
         if(!product) throw new CustomError({ status: 404, ok: false, response: "Product not found." });
 
@@ -19,17 +26,24 @@ class ProductsDAO{
     }
 
     async create(body){
+        const response = await fs.promises.readFile(this.path);
+        const products = JSON.parse(response);
+        
         const { title, description, category, thumbnails, stock, price, code, status } = body;
         const product = { id: crypto.randomUUID(), title, description, category, thumbnails, stock, price, code, status };
 
-        this.products.push(product);
+        if(!products.length) await fs.promises.writeFile(this.path, JSON.stringify([product], null, "\t"));
+        else await fs.promises.writeFile(this.path, JSON.stringify([...products, product], null, "\t"));
 
         return "Product created.";
     }
 
     async updateSome(id, body){
+        const response = await fs.promises.readFile(this.path);
+        const products = JSON.parse(response);
+        const product = products.find(product => product.id === id);
+        
         const { title, description, category, thumbnails, stock, price, code, status } = body;
-        const product = this.products.find(product => product.id === id);
         
         if(!product) throw new CustomError({ status: 404, ok: false, response: "Product not found." });
 
@@ -45,13 +59,17 @@ class ProductsDAO{
             status: status ?? product.status
         }
 
-        this.products = this.products.map(product => product.id === id ? updated : product);
-    
+        const update = products.map(product => product.id === id ? updated : product);
+        
+        await fs.promises.writeFile(this.path, JSON.stringify(update, null, "\t"));
+
         return "Product updated.";
     }
 
     async updateAll(id, body){
-        const product = this.products.find(product => product.id === id);
+        const response = await fs.promises.readFile(this.path);
+        const products = JSON.parse(response);
+        const product = products.find(product => product.id === id);
 
         if(!product) throw new CustomError({ status: 404, ok: false, response: "Product not found." });
         
@@ -62,23 +80,29 @@ class ProductsDAO{
 
         const updated = { id: product.id, title, description, category, thumbnails, stock, price, code, status };
         
-        this.products = this.products.map(product => product.id === id ? updated : product);
+        const update = products.map(product => product.id === id ? updated : product);
+
+        await fs.promises.writeFile(this.path, JSON.stringify(update, null, "\t"));
 
         return "Product updated.";
     }
     
     async deleteOne(id){
-        const product = this.products.find(product => product.id === id);
+        const response = await fs.promises.readFile(this.path);
+        const products = JSON.parse(response);
+        const product = products.find(product => product.id === id);
 
         if(!product) throw new CustomError({ status: 404, ok: false, response: "Product not found." });
 
-        this.products = this.products.filter(product => product.id !== id && product)
+        const update = products.filter(product => product.id !== id && product)
+
+        await fs.promises.writeFile(this.path, JSON.stringify(update, null, "\t"));
 
         return "Product removed.";
     }
 
     async deleteMany(){
-        this.products = [];
+        await fs.promises.writeFile(this.path, JSON.stringify([]));
 
         return "All products were removed.";
     }

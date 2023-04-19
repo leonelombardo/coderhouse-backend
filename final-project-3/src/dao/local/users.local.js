@@ -1,18 +1,25 @@
+const fs = require("fs");
 const crypto = require("crypto");
+
 const CustomError = require("../../classes/CustomError");
 const { hashPassword } = require("../../utils/bcrypt.util");
 
 class UsersDAO{
     constructor(){
-        this.users = [];
+        this.path = process.cwd() + "/src/fs/users.json"
     }
 
     async find(){
-        return this.users;
+        const response = await fs.promises.readFile(this.path);
+        const users = JSON.parse(response);
+        
+        return users;
     }
 
     async findById(id){
-        const user = this.users.find(user => user.id === id);
+        const response = await fs.promises.readFile(this.path);
+        const users = JSON.parse(response);
+        const user = users.find(user => user.id === id);
 
         if(!user) throw new CustomError({ status: 404, ok: false, response: "User not found." });
 
@@ -26,23 +33,31 @@ class UsersDAO{
 
         const user = { id: crypto.randomUUID(), first_name, last_name, email, age, password: hashPassword(password), role: "user" };
 
-        this.users.push(user);
+        const response = await fs.promises.readFile(this.path);
+        const users = JSON.parse(response);
+
+        if(!users.length) await fs.promises.writeFile(this.path, JSON.stringify([user], null, "\t"));
+        else await fs.promises.writeFile(this.path, JSON.stringify([...users, user], null, "\t"));
 
         return "User created";
     }
 
     async deleteOne(id){
-        const user = this.users.find(user => user.id === id);
+        const response = await fs.promises.readFile(this.path);
+        const users = JSON.parse(response);
+        const user = users.find(user => user.id === id);
 
         if(!user) throw new CustomError({ status: 404, ok: false, response: "User not found." });
         
-        this.users = this.users.filter(user => user.id !== id && user);
-        
+        const update = users.filter(user => user.id !== id && user);
+       
+        await fs.promises.writeFile(this.path, JSON.stringify(update, null, "\t"));
+
         return "User removed.";
     }
 
     async deleteMany(){
-        this.users = [];
+        await fs.promises.writeFile(this.path, JSON.stringify([]));
 
         return "All users were removed.";
     }

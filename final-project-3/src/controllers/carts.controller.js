@@ -1,5 +1,8 @@
 const { Router } = require("express");
+
 const { CartsDAO } = require("../factory/index.js");
+const { validateToken } = require("../utils/jwt.utils.js");
+const CustomError = require("../classes/CustomError.js");
 
 const cartsController = Router();
 const Cart = new CartsDAO();
@@ -14,7 +17,7 @@ cartsController.get("/", async (req, res, next) => {
     }
 })
 
-cartsController.get("/:id", async (req, res, next) => {
+cartsController.get("/:id", validateToken, async (req, res, next) => {
     try{
         const response = await Cart.findById(req.params.id);
         
@@ -34,7 +37,9 @@ cartsController.post("/", async (req, res, next) => {
     }
 })
 
-cartsController.post("/:cartId/product/:productId", async (req, res, next) => {
+cartsController.post("/:cartId/product/:productId", validateToken, async (req, res, next) => {
+    if(req.user.role !== "user") throw new CustomError({ status: 403, ok: false, response: "Unauthorized." });
+    
     const { cartId, productId } = req.params;
 
     try{

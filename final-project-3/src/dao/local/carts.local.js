@@ -1,31 +1,46 @@
+const fs = require("fs");
 const crypto = require("crypto");
+
 const CustomError = require("../../classes/CustomError");
 
 class CartsDAO{
     constructor(){
-        this.carts = [];
+        this.path = process.cwd() + "/src/fs/carts.json";
     }
 
-    find(){
-        return this.carts;
+    async find(){
+        const response = await fs.promises.readFile(this.path);
+        const carts = JSON.parse(response);
+
+        return carts;
     }
 
-    findById(id){
-        const cart = this.carts.find(cart => cart.id === id);
+    async findById(id){
+        const response = await fs.promises.readFile(this.path);
+        const carts = JSON.parse(response);
+        const cart = carts.find(cart => cart.id === id);
 
-        if(!cart) throw new Error("No cart matches this ID.");
+        if(!cart) throw new CustomError({ status: 404, ok: false, response: "Cart not found." });
 
         return cart;
     }
 
-    create(){
-        this.carts.push({ id: crypto.randomUUID(), products: []});
-    
+    async create(){
+        const response = await fs.promises.readFile(this.path);
+        const carts = JSON.parse(response);
+
+        const cart = { id: crypto.randomUUID(), products: []};
+
+        if(!carts.length) await fs.promises.writeFile(this.path, JSON.stringify([cart], null, "\t"));
+        else await fs.promises.writeFile(this.path, JSON.stringify([...carts, cart], null, "\t"));
+        
         return "Cart created.";
     }
 
-    addProductToCart(cartId, productId){
-        const cart = this.carts.find(cart => cart.id === cartId);
+    async addProductToCart(cartId, productId){
+        const response = await fs.promises.readFile(this.path);
+        const carts = JSON.parse(response);
+        const cart = carts.find(cart => cart.id === cartId);
 
         if(!cart) throw new CustomError({ status: 404, ok: false, response: "Cart not found." });
 
@@ -33,24 +48,37 @@ class CartsDAO{
 
         if(repeated) cart.products.find(product => product.product === productId && product.quantity++);
         else cart.products.push({ product: productId, quantity: 1 });
+
+        const update = carts.map(x => x.id === cartId ? cart : x);
+
+        await fs.promises.writeFile(this.path, JSON.stringify(update, null, "\t"));
     
         return "Product added to cart.";
     }
 
     async updateProducts(id, body){
         if(!body.products.length) throw new CustomError({ status: 400, ok: false, response: "Invalid request." });
-
-        const cart = this.carts.find(cart => cart.id === id);
+        
+        const response = await fs.promises.readFile(this.path);
+        const carts = JSON.parse(response);
+        const cart = carts.find(cart => cart.id === id);
 
         if(!cart) throw new CustomError({ status: 404, ok: false, response: "Cart not found." });
 
-        return this.carts.find(cart => cart.id === id && (cart.products = body.products));
+        const updated = carts.find(cart => cart.id === id && (cart.products = body.products));
+        const update = carts.map(cart => cart.id === id ? updated : cart);
+    
+        await fs.promises.writeFile(this.path, JSON.stringify(update, null, "\t"));
+
+        return update;
     }
 
     async updateProductQuantity(cartId, productId, body){
         if(!body.quantity) throw new Error("Invalid request.");
 
-        const cart = this.carts.find(cart => cart.id === cartId);
+        const response = await fs.promises.readFile(this.path);
+        const carts = JSON.parse(response);
+        const cart = carts.find(cart => cart.id === cartId);
 
         if(!cart) throw new CustomError({ status: 404, ok: false, response: "Cart not found." });
 
@@ -58,50 +86,62 @@ class CartsDAO{
 
         if(!found) throw new CustomError({ status: 404, ok: false, response: "Product not found in cart." });
 
-        const update = cart.products.map(product => product.product === productId && (product.quantity = body.quantity));
+        const updated = cart.products.map(product => product.product === productId ? {...product, quantity: body.quantity } : product);
+        const update = carts.map(cart => cart.id === cartId ? {...cart, products: updated } : cart);
 
-        this.carts.find(cart => cart.id === cartId && update);
+        await fs.promises.writeFile(this.path, JSON.stringify(update, null, "\t"));
 
         return "Product quantity updated.";
     }
 
     async deleteOne(id){
-        const cart = this.carts.find(cart => cart.id === id);
+        const response = await fs.promises.readFile(this.path);
+        const carts = JSON.parse(response);
+        const cart = carts.find(cart => cart.id === id);
 
         if(!cart) throw new CustomError({ status: 404, ok: false, response: "Cart not found." });
 
-        this.carts = this.carts.filter(x => x.id !== id && x);
+        const update = carts.filter(x => x.id !== id && x);
+
+        await fs.promises.writeFile(this.path, JSON.stringify(update, null, "\t"));
         
         return "Cart deleted.";
     }
 
     async deleteMany(){
-        this.carts = [];
+        await fs.promises.writeFile(this.path, JSON.stringify([])); 
 
         return "All carts were removed.";
     }
 
     async deleteProductFromCart(cartId, productId){
-        const cart = this.carts.find(cart => cart.id === cartId);
+        const response = await fs.promises.readFile(this.path);
+        const carts = JSON.parse(response);
+        const cart = carts.find(cart => cart.id === cartId);
 
         if(!cart) throw new CustomError({ status: 404, ok: false, response: "Cart not found." });
 
-        const update = cart.products.filter(product => product.product !== productId && product);
+        const filtered = cart.products.filter(product => product.product !== productId && product);
+        const updated = carts.find(cart => cart.id === cartId && (cart.products = filtered));
+        const update = carts.map(cart => cart.id === cartId ? updated : cart);
 
-        this.carts.find(cart => cart.id === cartId && (cart.products = update));
-    
+        await fs.promises.writeFile(this.path, JSON.stringify(update, null, "\t"));
+
         return "Product removed from cart.";
     }
 
     async deleteProducts(id){
-        const cart = this.carts.find(cart => cart.id === id);
+        const response = await fs.promises.readFile(this.path);
+        const carts = JSON.parse(response);
+        const cart = carts.find(cart => cart.id === id);
 
         if(!cart) throw new CustomError({ status: 404, ok: false, response: "Cart not found." });
 
-        const update = cart.products = [];
+        const updated = carts.find(cart => cart.id === id && (cart.products = []));
+        const update = carts.map(cart => cart.id === id ? updated : cart);
 
-        this.carts.find(cart => cart.id === id && (cart.products = update));
-    
+        await fs.promises.writeFile(this.path, JSON.stringify(update, null, "\t"));
+        
         return "All products were removed from cart.";
     }
 }
