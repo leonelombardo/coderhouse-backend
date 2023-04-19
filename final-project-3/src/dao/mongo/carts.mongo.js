@@ -18,6 +18,8 @@ class CartsDAO{
         const cart = await Carts.findById(cartId);
         const product = await Products.findById(productId);
 
+        if(!cart) throw new Error("No cart matches this ID.");
+
         const repeated = cart.products.find(product => product.product.equals(productId));
         
         if(repeated) cart.products.find(product => product.product.equals(productId) && product.quantity++);
@@ -38,6 +40,9 @@ class CartsDAO{
         if(!body.quantity) throw new Error("Invalid request.");
 
         const cart = await Carts.findById(cartId);
+
+        if(!cart) throw new Error("No cart matches this ID.");
+
         const found = cart.products.find(product => product.product.equals(productId));
 
         if(!found) throw new Error("Product not found in cart.");
@@ -52,7 +57,7 @@ class CartsDAO{
     async deleteOne(id){
         const cart = await Carts.findById(id);
 
-        if(!cart) throw new Error("No cart matches this id.");
+        if(!cart) throw new Error("No cart matches this ID.");
 
         await Carts.deleteOne({ _id: id });
         
@@ -61,6 +66,9 @@ class CartsDAO{
 
     async deleteProductFromCart(cartId, productId){
         const cart = await Carts.findById(cartId);
+
+        if(!cart) throw new Error("No cart matches this ID.");
+
         const update = cart.products.filter(product => !product.product.equals(productId) && product);
 
         await Carts.updateOne({ _id: cartId }, {...cart._doc, products: update});
@@ -70,6 +78,8 @@ class CartsDAO{
 
     async deleteProducts(id){
         const cart = await Carts.findById(id);
+        
+        if(!cart) throw new Error("No cart matches this ID.");
 
         await Carts.updateOne({ _id: id }, {...cart._doc, products: []})
     
