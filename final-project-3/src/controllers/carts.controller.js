@@ -78,6 +78,16 @@ cartsController.delete("/:id", async (req, res, next) => {
     }
 })
 
+cartsController.delete("/", async (req, res, next) => {
+    try{
+        const response = await Cart.deleteMany();
+        
+        res.status(200).json({ status: 200, ok: true, response });
+    }catch(error){
+        next(error);
+    }
+})
+
 cartsController.delete("/:cartId/product/:productId", async (req, res, next) => {
     const { cartId, productId } = req.params;
 

@@ -75,6 +75,12 @@ class CartsDAO{
         return "Cart deleted.";
     }
 
+    async deleteMany(){
+        this.carts = [];
+
+        return "All carts were removed.";
+    }
+
     async deleteProductFromCart(cartId, productId){
         const cart = this.carts.find(cart => cart.id === cartId);
 
