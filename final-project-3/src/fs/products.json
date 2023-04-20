@@ -1,1 +1,28 @@
-[]
+[
+	{
+		"id": "06bcc9c2-a1c8-4b94-97be-67931946d0cb",
+		"title": "Porsche 911 GT3 RS",
+		"description": "The Porsche 911 GT3 is a high-performance homologation model of the Porsche 911 sports car. It is a line of high-performance models, which began with the 1973 911 Carrera RS. The GT3 has had a successful racing career in the one-make national and regional Porsche Carrera Cup and GT3 Cup Challenge series, as well as the international Porsche Supercup supporting the FIA Formula 1 World Championship.",
+		"category": "Sportscar",
+		"thumbnails": [
+			"https://images.hindustantimes.com/auto/img/2022/07/26/1600x900/Porsche_911_GT3_RS_1658831053248_1658831053443_1658831053443.jpg"
+		],
+		"stock": 4,
+		"price": 314000,
+		"code": "7xk13df87sa0lp3",
+		"status": true
+	},
+	{
+		"id": "b26d44c1-2356-4f36-afc6-2f617d5354b9",
+		"title": "Porsche 911 GT3 RS",
+		"description": "The Porsche 911 GT3 is a high-performance homologation model of the Porsche 911 sports car. It is a line of high-performance models, which began with the 1973 911 Carrera RS. The GT3 has had a successful racing career in the one-make national and regional Porsche Carrera Cup and GT3 Cup Challenge series, as well as the international Porsche Supercup supporting the FIA Formula 1 World Championship.",
+		"category": "Sportscar",
+		"thumbnails": [
+			"https://images.hindustantimes.com/auto/img/2022/07/26/1600x900/Porsche_911_GT3_RS_1658831053248_1658831053443_1658831053443.jpg"
+		],
+		"stock": 9,
+		"price": 314000,
+		"code": "7xk13df87sa0lp3",
+		"status": true
+	}
+]

@@ -1,6 +1,10 @@
 const Carts = require("../models/carts.model");
 const Products = require("../models/products.model");
+
 const CustomError = require("../../classes/CustomError");
+const TicketsDAO = require("./tickets.mongo");
+
+const Tickets = new TicketsDAO();
 
 class CartsDAO{
     async find(){
@@ -35,6 +39,42 @@ class CartsDAO{
         await Carts.updateOne({ _id: cartId }, cart);
     
         return "Product added to cart.";
+    }
+
+    async generateTicket(id, email){
+        const cart = await Carts.findById(id);
+
+        if(!cart) throw new CustomError({ status: 404, ok: false, response: "Cart not found." });
+
+        let total = 0;
+        const products = [];
+        const not_purchased_products = [];
+
+        for(let i=0; i < cart.products.length; i++){
+            const found = await Products.findById(cart.products[i].product);
+            
+            if(!found) not_purchased_products.push(cart.products[i].product._id);
+
+            if(found.stock < cart.products[i].quantity) not_purchased_products.push(cart.products[i].product._id);
+
+            else {
+                found.stock -= cart.products[i].quantity;
+                total += found.price * cart.products[i].quantity
+    
+                await Products.updateOne({ _id: cart.products[i].product }, found);
+    
+                products.push(cart.products[i].product._id)
+            }
+        }
+
+        const updated = cart.products.filter(product => !products.find(x => x === product.product._id) && product);
+
+
+        await Carts.updateOne({ _id: id }, {...cart._doc, products: updated });
+
+        const ticket = await Tickets.create(total, email);
+
+        return { ticket, not_purchased_products };
     }
 
     async updateProducts(id, body){

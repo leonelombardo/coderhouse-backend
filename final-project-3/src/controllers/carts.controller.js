@@ -2,7 +2,6 @@ const { Router } = require("express");
 
 const { CartsDAO } = require("../factory/index.js");
 const { validateToken } = require("../utils/jwt.utils.js");
-const CustomError = require("../classes/CustomError.js");
 
 const cartsController = Router();
 const Cart = new CartsDAO();
@@ -17,7 +16,7 @@ cartsController.get("/", async (req, res, next) => {
     }
 })
 
-cartsController.get("/:id", validateToken, async (req, res, next) => {
+cartsController.get("/:id", async (req, res, next) => {
     try{
         const response = await Cart.findById(req.params.id);
         
@@ -38,7 +37,7 @@ cartsController.post("/", async (req, res, next) => {
 })
 
 cartsController.post("/:cartId/product/:productId", validateToken, async (req, res, next) => {
-    if(req.user.role !== "user") throw new CustomError({ status: 403, ok: false, response: "Unauthorized." });
+    if(req.user.role !== "user") return res.status(403).json({ status: 403, ok: false, response: "Forbidden." });
     
     const { cartId, productId } = req.params;
 
@@ -47,6 +46,19 @@ cartsController.post("/:cartId/product/:productId", validateToken, async (req, r
     
         res.status(201).json({ status: 201, ok: true, response });
     }catch(error){
+        next(error);
+    }
+})
+
+cartsController.post("/:id/purchase", validateToken, async (req, res, next) => {
+    if(req.user.role !== "user") return res.status(403).json({ status: 403, ok: false, response: "Forbidden." });
+
+    try{
+        const response = await Cart.generateTicket(req.params.id, req.user.email);
+    
+        res.status(201).json({ status: 201, ok: true, response });
+    }catch(error){
+        console.log(error)
         next(error);
     }
 })

@@ -1,4 +1,5 @@
 const { Router } = require("express");
+
 const { ProductsDAO } = require("../factory/index");
 const { validateToken } = require("../utils/jwt.utils");
 
@@ -26,7 +27,7 @@ productsController.get("/:id", async (req, res, next) => {
 })
 
 productsController.post("/", validateToken, async (req, res, next) => {
-    if(req.user.role !== "admin") return res.status(403).json({ status: 404, ok: false, response: "Unauthorized." });
+    if(req.user.role !== "admin") return res.status(403).json({ status: 404, ok: false, response: "Forbidden." });
     
     try{
         const response = await Products.create(req.body);
@@ -38,7 +39,7 @@ productsController.post("/", validateToken, async (req, res, next) => {
 })
 
 productsController.patch("/:id", validateToken, async (req, res, next) => {
-    if(req.user.role !== "admin") return res.status(403).json({ status: 404, ok: false, response: "Unauthorized." });
+    if(req.user.role !== "admin") return res.status(403).json({ status: 404, ok: false, response: "Forbidden." });
 
     try{
         const response = await Products.updateSome(req.params.id, req.body);
@@ -50,7 +51,7 @@ productsController.patch("/:id", validateToken, async (req, res, next) => {
 })
 
 productsController.put("/:id", validateToken, async (req, res, next) => {
-    if(req.user.role !== "admin") return res.status(403).json({ status: 404, ok: false, response: "Unauthorized." });
+    if(req.user.role !== "admin") return res.status(403).json({ status: 404, ok: false, response: "Forbidden." });
 
     try{
         const response = await Products.updateAll(req.params.id, req.body);
@@ -62,7 +63,7 @@ productsController.put("/:id", validateToken, async (req, res, next) => {
 })
 
 productsController.delete("/:id", validateToken, async (req, res, next) => {
-    if(req.user.role !== "admin") return res.status(403).json({ status: 404, ok: false, response: "Unauthorized." });
+    if(req.user.role !== "admin") return res.status(403).json({ status: 404, ok: false, response: "Forbidden." });
 
     try{
         const response = await Products.deleteOne(req.params.id);
@@ -74,7 +75,7 @@ productsController.delete("/:id", validateToken, async (req, res, next) => {
 })
 
 productsController.delete("/", validateToken, async (req, res, next) => {
-    if(req.user.role !== "admin") return res.status(403).json({ status: 404, ok: false, response: "Unauthorized." });
+    if(req.user.role !== "admin") return res.status(403).json({ status: 404, ok: false, response: "Forbidden." });
 
     try{
         const response = await Products.deleteMany();

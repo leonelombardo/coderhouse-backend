@@ -1,4 +1,5 @@
 const { Router } = require("express");
+
 const { UsersDAO } = require("../factory/index");
 
 const usersController = Router();

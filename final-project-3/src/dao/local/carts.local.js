@@ -1,11 +1,15 @@
 const fs = require("fs");
 const crypto = require("crypto");
 
+const TicketsDAO = require("./tickets.local");
 const CustomError = require("../../classes/CustomError");
+
+const Tickets = new TicketsDAO();
 
 class CartsDAO{
     constructor(){
         this.path = process.cwd() + "/src/fs/carts.json";
+        this.products = process.cwd() + "/src/fs/products.json";
     }
 
     async find(){
@@ -44,6 +48,12 @@ class CartsDAO{
 
         if(!cart) throw new CustomError({ status: 404, ok: false, response: "Cart not found." });
 
+        const productsResponse = await fs.promises.readFile(this.products);
+        const parsedProducts = JSON.parse(productsResponse);
+        const product = parsedProducts.find(product => product.id === productId);
+
+        if(!product) throw new CustomError({ status: 404, ok: false, response: "Product not found." });
+
         const repeated = cart.products.find(product => product.product === productId);
 
         if(repeated) cart.products.find(product => product.product === productId && product.quantity++);
@@ -54,6 +64,50 @@ class CartsDAO{
         await fs.promises.writeFile(this.path, JSON.stringify(update, null, "\t"));
     
         return "Product added to cart.";
+    }
+
+    async generateTicket(id, email){
+        const response = await fs.promises.readFile(this.path);
+        const carts = JSON.parse(response);
+        const cart = carts.find(cart => cart.id === id);
+
+        if(!cart) throw new CustomError({ status: 404, ok: false, response: "Cart not found." });
+
+        let total = 0;
+        const products = [];
+        const not_purchased_products = [];
+
+        for(let i=0; i < cart.products.length; i++){
+            const productsResponse = await fs.promises.readFile(this.products);
+            const parsedProducts = JSON.parse(productsResponse);
+            const found = parsedProducts.find(product => product.id === cart.products[i].product);
+            
+            if(!found) not_purchased_products.push(cart.products[i].product);
+
+            if(found && found.stock < cart.products[i].quantity) not_purchased_products.push(cart.products[i].product);
+
+            if(found && found.stock >= cart.products[i].quantity){
+                found.stock -= cart.products[i].quantity;
+                total += found.price * cart.products[i].quantity
+    
+                const update = parsedProducts.map(product => product.id === cart.products[i].product ? found : product);
+
+                await fs.promises.writeFile(this.products, JSON.stringify(update, null, "\t"));
+    
+                products.push(cart.products[i].product)
+            }
+        }
+
+        if(!products.length) return not_purchased_products;
+        
+        const updated = cart.products.filter(product => !products.find(x => x === product.product) && product);
+        const update = carts.map(cart => cart.id === id ? {...cart, products: updated } : cart);
+
+        await fs.promises.writeFile(this.path, JSON.stringify(update, null, "\t"));
+
+        const ticket = await Tickets.create(total, email);
+
+        return { ticket, not_purchased_products };
     }
 
     async updateProducts(id, body){
