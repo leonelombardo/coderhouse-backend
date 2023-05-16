@@ -1,0 +1,16 @@
+[
+	{
+		"id": "b940bcd9-eedb-4c52-ba7e-7288a9f04428",
+		"code": "095d0e74-9dd9-4eeb-82a0-db14347e895a",
+		"purchase_datetime": "4/20/2023, 4:45:43 PM",
+		"amount": 942000,
+		"purchaser": "johndoe@gmail.com"
+	},
+	{
+		"id": "7ffe84ca-833e-4541-9dac-78379fb5eabe",
+		"code": "25084e7d-d049-437e-a109-2bc49903355e",
+		"purchase_datetime": "4/20/2023, 4:46:03 PM",
+		"amount": 942000,
+		"purchaser": "johndoe@gmail.com"
+	}
+]
