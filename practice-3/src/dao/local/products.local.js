@@ -37,7 +37,7 @@ class ProductsDAO{
             const users = JSON.parse(usersResponse);
             const user = users.find(x => x.email === owner);
     
-            if(user.role !== "admin" && user.role !== "premium") throw new CustomError({ status: 400, ok: false, response: "Owner must have premium role." });
+            if(user.role !== "admin" && user.role !== "premium") throw new CustomError({ status: 401, ok: false, response: "Unauthorized." });
         }
         
         const product = { id: crypto.randomUUID(), title, description, category, thumbnails, stock, price, code, status, owner: owner || "admin" };
@@ -97,7 +97,7 @@ class ProductsDAO{
         return "Product updated.";
     }
     
-    async deleteOne(id){
+    async deleteOne(id, user){
         const response = await fs.promises.readFile(this.path);
         const products = JSON.parse(response);
         const product = products.find(product => product.id === id);
@@ -105,10 +105,20 @@ class ProductsDAO{
         if(!product) throw new CustomError({ status: 404, ok: false, response: "Product not found." });
 
         const update = products.filter(product => product.id !== id && product)
+        
+        if(user.role === "admin"){
+            await fs.promises.writeFile(this.path, JSON.stringify(update, null, "\t"));
+    
+            return "Product removed.";
+        }
 
-        await fs.promises.writeFile(this.path, JSON.stringify(update, null, "\t"));
+        if(user.role === "premium" && user.email === product.owner){
+            await fs.promises.writeFile(this.path, JSON.stringify(update, null, "\t"));
+    
+            return "Product removed.";
+        }
 
-        return "Product removed.";
+        throw new CustomError({ status: 403, ok: false, response: "Forbidden." });
     }
 
     async deleteMany(){

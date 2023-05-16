@@ -25,11 +25,13 @@ class CartsDAO{
         return "Cart created.";
     }
 
-    async addProductToCart(cartId, productId){
+    async addProductToCart(cartId, productId, user){
         const cart = await Carts.findById(cartId);
         const product = await Products.findById(productId);
 
         if(!cart) throw new CustomError({ status: 404, ok: false, response: "Cart not found." });
+
+        if(user.email === product.owner) return "Can't add own products.";
 
         const repeated = cart.products.find(product => product.product.equals(productId));
         

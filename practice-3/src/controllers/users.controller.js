@@ -25,6 +25,17 @@ usersController.get("/:id", async (req, res, next) => {
     }
 })
 
+usersController.get("/premium/:id", async (req, res, next) => {
+    try{
+        const response = await Users.switchRole(req.params.id);
+
+        res.status(200).json({ status: 200, ok: true, response })
+    }catch(error){
+        console.log(error)
+        next(error);
+    }
+})
+
 usersController.post("/", async (req, res, next) => {
     try{
         const response = await Users.create(req.body);

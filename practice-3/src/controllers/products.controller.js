@@ -27,7 +27,7 @@ productsController.get("/:id", async (req, res, next) => {
 })
 
 productsController.post("/", validateToken, async (req, res, next) => {
-    if(req.user.role !== "admin" && req.user.role !== "premium") return res.status(403).json({ status: 404, ok: false, response: "Forbidden." });
+    if(req.user.role !== "admin" && req.user.role !== "premium") return res.status(403).json({ status: 403, ok: false, response: "Forbidden." });
     
     try{
         const response = await Products.create(req.body);
@@ -63,10 +63,10 @@ productsController.put("/:id", validateToken, async (req, res, next) => {
 })
 
 productsController.delete("/:id", validateToken, async (req, res, next) => {
-    if(req.user.role !== "admin") return res.status(403).json({ status: 404, ok: false, response: "Forbidden." });
+    if(req.user.role !== "admin" && req.user.role !== "premium") return res.status(403).json({ status: 403, ok: false, response: "Forbidden." });
 
     try{
-        const response = await Products.deleteOne(req.params.id);
+        const response = await Products.deleteOne(req.params.id, req.user);
 
         res.status(200).json({ status: 200, ok: true, response });
     }catch(error){

@@ -42,6 +42,22 @@ class UsersDAO{
         return "User created";
     }
 
+    async switchRole(id){
+        const response = await fs.promises.readFile(this.path);
+        const users = JSON.parse(response);
+        
+        const user = users.find(x => x.id === id);
+        
+        if(!user) throw new CustomError({ status: 404, ok: false, response: "User not found." });
+        
+        const updated = {...user, role: user.role === "user" ? "premium" : "user" };
+        const update = users.map(x => x.id === id ? updated : x);
+
+        await fs.promises.writeFile(this.path, JSON.stringify(update, null, "\t"))
+
+        return update;
+    }
+
     async deleteOne(id){
         const response = await fs.promises.readFile(this.path);
         const users = JSON.parse(response);

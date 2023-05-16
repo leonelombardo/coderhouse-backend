@@ -37,12 +37,12 @@ cartsController.post("/", async (req, res, next) => {
 })
 
 cartsController.post("/:cartId/product/:productId", validateToken, async (req, res, next) => {
-    if(req.user.role !== "user") return res.status(403).json({ status: 403, ok: false, response: "Forbidden." });
+    if(req.user.role == "admin") return res.status(403).json({ status: 403, ok: false, response: "Forbidden." });
     
     const { cartId, productId } = req.params;
 
     try{
-        const response = await Cart.addProductToCart(cartId, productId);
+        const response = await Cart.addProductToCart(cartId, productId, req.user);
     
         res.status(201).json({ status: 201, ok: true, response });
     }catch(error){

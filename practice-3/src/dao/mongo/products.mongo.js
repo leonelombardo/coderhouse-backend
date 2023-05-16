@@ -22,7 +22,7 @@ class ProductsDAO{
         if(owner){
             const user = await Users.findOne({ email: owner });
 
-            if(user.role !== "admin" && user.role !== "premium") throw new CustomError({ status: 400, ok: false, response: "Owner must have premium role." });
+            if(user.role !== "admin" && user.role !== "premium") throw new CustomError({ status: 401, ok: false, response: "Unauthorized." });
         }
 
         const product = { title, description, category, thumbnails, stock, price, code, status, owner };
@@ -68,10 +68,22 @@ class ProductsDAO{
         return "Product updated.";
     }
 
-    async deleteOne(id){
-        await Products.deleteOne({ _id: id });
+    async deleteOne(id, user){
+        const product = await Products.findById(id);
 
-        return "Product removed.";
+        if(user.role === "admin"){
+            await Products.deleteOne({ _id: id });
+            
+            return "Product removed.";
+        }
+
+        if(user.role === "premium" && user.email === product.owner){
+            await Products.deleteOne({ _id: id });
+    
+            return "Product removed.";
+        }
+
+        throw new CustomError({ status: 403, ok: false, response: "Forbidden." });
     }
 
     async deleteMany(){

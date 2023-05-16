@@ -27,6 +27,18 @@ class UsersDAO{
         return "User created.";
     }
 
+    async switchRole(id){
+        const user = await Users.findById(id);
+
+        if(!user) throw new CustomError({ status: 404, ok: false, response: "User not found." });
+
+        const update = {...user._doc, role: user._doc.role === "user" ? "premium" : "user" };
+
+        await Users.updateOne({ _id: id }, update);
+
+        return update;
+    }
+
     async deleteOne(id){
         const user = await Users.findById(id);
 

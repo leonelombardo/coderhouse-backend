@@ -41,7 +41,7 @@ class CartsDAO{
         return "Cart created.";
     }
 
-    async addProductToCart(cartId, productId){
+    async addProductToCart(cartId, productId, user){
         const response = await fs.promises.readFile(this.path);
         const carts = JSON.parse(response);
         const cart = carts.find(cart => cart.id === cartId);
@@ -53,6 +53,8 @@ class CartsDAO{
         const product = parsedProducts.find(product => product.id === productId);
 
         if(!product) throw new CustomError({ status: 404, ok: false, response: "Product not found." });
+
+        if(user.email === product.owner) return "Can't add own products.";
 
         const repeated = cart.products.find(product => product.product === productId);
 
