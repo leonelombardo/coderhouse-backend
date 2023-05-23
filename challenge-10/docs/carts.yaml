@@ -1,0 +1,281 @@
+paths:
+  /api/carts:
+    get:
+      summary: "return all carts"
+      tags:
+        - carts
+      responses:
+        "200":
+          description: "ok"
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/cart"
+        "500":
+          description: "internal server error"
+    post:
+      summary: "create cart"
+      tags:
+        - carts
+      responses:
+        "201":
+          description: "cart created"
+        "500":
+          description: "internal server error"
+    delete:
+      summary: "delete all carts"
+      tags:
+        - carts
+      responses:
+        "200":
+          description: "all carts removed"
+        "401":
+          description: "unauthorized"
+        "403":
+          description: "forbidden"
+        "500":
+          description: "internal server error"
+
+  /api/carts/{id}:
+    get:
+      summary: "find cart by id"
+      tags: 
+        - carts
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: "cart id"
+        schema:
+          $type: string
+      responses:
+        "200":
+          description: "ok"
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/cart"
+        "404":
+          description: "cart not found"
+        "500":
+          description: "internal server error"
+    patch:
+      summary: "updates cart partially"
+      tags:
+        - carts
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/update_cart"
+      responses:
+        "200":
+          description: "ok"
+        "401":
+          description: "unauthorized"
+        "403":
+          description: "forbidden"
+        "404":
+          description: "cart not found"
+        "500":
+          description: "internal server error"
+    delete:
+      summary: "delete a specific cart"
+      tags:
+        - carts
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $type: string
+      responses:
+        "200":
+          description: "cart removed"
+        "401":
+          description: "unauthorized"
+        "403":
+          description: "forbidden"
+        "404":
+          description: "cart not found"
+        "500":
+          description: "internal server error"
+  
+  /api/carts/{cart_id}/product/{product_id}:
+    post:
+      summary: "adds a product id to cart products array"
+      tags:
+        - carts
+      parameters:
+      - name: cart_id
+        in: path
+        required: true
+        schema:
+          $type: string
+      - name: product_id
+        in: path
+        required: true
+        schema:
+          $type: string
+      responses:
+        "200":
+          description: "ok"
+        "401":
+          description: "unauthorized"
+        "403":
+          description: "forbidden"
+        "404":
+          description: "cart/product not found"
+        "500":
+          description: "internal server error"
+    patch:
+      summary: "updates product quantity"
+      tags:
+        - carts
+      parameters:
+      - name: cart_id
+        in: path
+        required: true
+        schema:
+          $type: string
+      - name: product_id
+        in: path
+        required: true
+        schema:
+          $type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/update_product_quantity"
+      responses:
+        "200":
+          description: "ok"
+        "401":
+          description: "unauthorized"
+        "403":
+          description: "forbidden"
+        "404":
+          description: "cart/product not found"
+        "500":
+          description: "internal server error"
+    delete:
+      summary: "delete product from cart"
+      tags:
+        - carts
+      parameters:
+      - name: cart_id
+        in: path
+        required: true
+        schema:
+          $type: string
+      - name: product_id
+        in: path
+        required: true
+        schema:
+          $type: string
+      responses:
+        "200":
+          description: "ok"
+        "401":
+          description: "unauthorized"
+        "403":
+          description: "forbidden"
+        "404":
+          description: "cart/product not found"
+        "500":
+          description: "internal server error"
+
+  /api/carts/{id}/purchase:
+    post:
+      summary: "generate order ticket"
+      tags:
+        - carts
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $type: string
+      responses:
+        "200":
+          description: "ok"
+        "401":
+          description: "unauthorized"
+        "403":
+          description: "forbidden"
+        "500":
+          description: "internal server error"
+
+  /api/carts/{id}/products:
+    delete:
+      summary: "delete all products of a specific cart"
+      tags:
+        - carts
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $type: string
+      responses:
+        "200":
+          description: "ok"
+        "401":
+          description: "unauthorized"
+        "403":
+          description: "forbidden"
+        "500":
+          description: "internal server error"
+
+components:
+  schemas:
+    cart:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: "autogenerated mongo id"
+        products:
+          type: Array
+          description: "cart products"
+      example:
+        _id: ObjectId("6463fbf60b2a59027f7e1197")
+        products: [
+          {
+            product: "6463ee0ab68ed949c1a32600",
+            quantity: 2,
+            _id: ObjectId("6463fc620b2a59027f7e11ab")
+          }
+        ]
+
+  requestBodies:
+    update_cart:
+      type: object
+      properties:
+        products:
+          type: Array
+          description: "cart products"
+      example:
+        products: [
+          {
+            product: "6463ee0ab68ed949c1a32600",
+            quantity: 74
+          }
+        ]
+    update_product_quantity:
+      type: object
+      properties:
+        quantity:
+          type: number
+          description: "product quantity"
+      example:
+        quantity: 92

@@ -1,0 +1,29 @@
+[
+	{
+		"id": "adbcdec7-f3ef-4077-860c-b9ecc925d6d3",
+		"first_name": "Jane",
+		"last_name": "Doe",
+		"email": "janedoe@gmail.com",
+		"age": 26,
+		"password": "$2b$10$/M0BOc2GTRmw1eKDBJ1ENeMTza1wiTrcR.QD1Bl7Ywg1t8Cr7aGxC",
+		"role": "premium"
+	},
+	{
+		"id": "9fdaa5b8-160b-4748-92e8-9cc1ef42803a",
+		"first_name": "John",
+		"last_name": "Doe",
+		"email": "johndoe@gmail.com",
+		"age": 23,
+		"password": "$2b$10$c4iCWjPAgFoIZRZ6U9D0D.1qf55i.MkMXWCo6V1uC8RQFliK5ywni",
+		"role": "user"
+	},
+	{
+		"id": "fb98af91-ebe5-4747-a00d-75cf506cf173",
+		"first_name": "Admin",
+		"last_name": "Test",
+		"email": "admin@test.com",
+		"age": 10,
+		"password": "$2b$10$ynzRoRaX3m6IsO9RYwh9eOuew1utH8E9kfiS49q24mCMpon33zk6S",
+		"role": "admin"
+	}
+]
